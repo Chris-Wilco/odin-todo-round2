@@ -1,4 +1,4 @@
-import * as NavigationVisual from "./navigationVisual.js";
+import * as GenerateElement from "./GeneratePageElement.js";
 
 export function createNavigationContainer(user) {
     let contentContainer;
@@ -27,9 +27,6 @@ export function createNavigationContainer(user) {
 
     return { navVisual, resetNavContainer, updateContentContainer };
 }
-
-import * as ProjectNavVisual from "./projectNavVisual.js";
-import * as GenerateElement from "./GeneratePageElement.js";
 
 export function createNavigationVisual(
     user,

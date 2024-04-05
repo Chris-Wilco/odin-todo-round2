@@ -10,7 +10,7 @@
 }
  */
 
-import * as List from "./list.js";
+import * as List from "./List.js";
 
 //TODO: Do i need a project container for holding and creating new projects?
 //Probably... A User module? Probably...
@@ -19,7 +19,7 @@ export function createProject(title, description, lists = []) {
     function addList() {
         const listName = prompt("Item name?");
         const listDescription = prompt("Item description?");
-        const newList = List.create(listName, listDescription);
+        const newList = List.createList(listName, listDescription);
         lists.push(newList);
         return newList;
     }

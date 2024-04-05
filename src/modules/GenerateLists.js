@@ -1,5 +1,5 @@
-import * as Item from "./item.js";
-import * as List from "./list.js";
+import * as Task from "./Task.js";
+import * as List from "./List.js";
 import * as Project from "./Project.js";
 
 export function createLists() {
@@ -10,7 +10,7 @@ export function createLists() {
         for (let j = 1; j < 4; j++) {
             let listItems = [];
             for (let k = 1; k < 7; k++) {
-                let newItem = Item.create(
+                let newItem = Task.createNewTask(
                     `Item title ${i}-${j}-${k}`,
                     `Item description ${i}-${j}-${k}`,
                     `Item due date ${i}-${j}-${k}`
@@ -18,14 +18,14 @@ export function createLists() {
                 listItems.push(newItem);
             }
 
-            let newList = List.create(
+            let newList = List.createList(
                 `List title ${i}-${j}`,
                 `List description ${i}-${j}`,
                 listItems
             );
             lists.push(newList);
         }
-        let newProject = Project.create(
+        let newProject = Project.createProject(
             `Project title ${i}`,
             `Project description ${i}`,
             lists

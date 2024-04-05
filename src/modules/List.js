@@ -1,4 +1,4 @@
-import * as Item from "./item.js";
+import * as Task from "./Task.js";
 import * as GenerateElement from "./GeneratePageElement.js";
 
 export function createList(title, description, listItems = []) {
@@ -6,7 +6,11 @@ export function createList(title, description, listItems = []) {
         const itemName = prompt("Item name?");
         const itemDescription = prompt("Item description?");
         const itemDueDate = prompt("Item due date?");
-        const newItem = Item.create(itemName, itemDescription, itemDueDate);
+        const newItem = Task.createNewTask(
+            itemName,
+            itemDescription,
+            itemDueDate
+        );
         listItems.push(newItem);
         return newItem;
     }
@@ -111,8 +115,6 @@ export function appendWholeItemList(listContainer, listItems) {
         listContainer.appendChild(item.itemVisual);
     });
 }
-
-import * as GenerateElement from "./generatePageElement.js";
 
 export function createListNavVisual(title) {
     const listTitleContainer = GenerateElement.generatePageElement("div", [

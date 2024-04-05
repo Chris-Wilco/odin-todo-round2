@@ -1,8 +1,8 @@
 import * as GenerateLists from "./GenerateLists.js";
-import * as Navigation from "./navigationContainer.js";
-import * as GenerateElement from "./generatePageElement.js";
-import * as User from "./user.js";
-import * as ContentContainer from "./contentContainer.js";
+import * as Navigation from "./Navigation.js";
+import * as GenerateElement from "./GeneratePageElement.js";
+import * as User from "./User.js";
+import * as ContentContainer from "./Content.js";
 
 export function generatePage() {
     const documentBody = document.querySelector("body");
