@@ -1,0 +1,26 @@
+{
+  "name": "odin-todo-round2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chris-Wilco/odin-todo-round2.git"
+  },
+  "author": "Chris Wilco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chris-Wilco/odin-todo-round2/issues"
+  },
+  "homepage": "https://github.com/Chris-Wilco/odin-todo-round2#readme",
+  "devDependencies": {
+    "css-loader": "^6.10.0",
+    "html-webpack-plugin": "^5.6.0",
+    "style-loader": "^3.3.4",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
