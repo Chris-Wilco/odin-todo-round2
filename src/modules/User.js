@@ -18,14 +18,14 @@ export function createUser(projects = []) {
     function updateNavContainer(newNavContainer) {
         navContainer = newNavContainer;
         projects.forEach((project) => {
-            project.updateNavContainer(newNavContainer);
+            project.updateNavContainer(navContainer);
         });
     }
 
     function updateContentContainer(newContentContainer) {
         contentContainer = newContentContainer;
         projects.forEach((project) => {
-            project.updateContentContainer(newContentContainer);
+            project.updateContentContainer(contentContainer);
         });
     }
 

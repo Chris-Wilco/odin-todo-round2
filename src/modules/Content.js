@@ -21,6 +21,7 @@ export function createContentContainer(user) {
 
     function resetContentContainer() {
         clearContentArea();
+        console.log("blamo!");
         changeProject(user.projects[0]);
         //navContainer.resetNavVisual();
     }
@@ -29,11 +30,17 @@ export function createContentContainer(user) {
         navContainer = newNavContainer;
     }
 
+    function setUser(newUser) {
+        user = newUser;
+        resetContentContainer();
+    }
+
     return {
         contentContainer,
         clearContentArea,
         changeProject,
         resetContentContainer,
         updateNavContainer,
+        setUser,
     };
 }

@@ -24,7 +24,8 @@ export function createProject(title, description, lists = []) {
         return newList;
     }
 
-    const projectVisual = createProjectVisual(
+    //gonna to change projectVisual to a let and see if I can update it.
+    let projectVisual = createProjectVisual(
         title,
         description,
         lists,
@@ -58,6 +59,14 @@ export function createProject(title, description, lists = []) {
     }
 
     function reloadContentContainer() {
+        projectVisual = createProjectVisual(
+            title,
+            description,
+            lists,
+            addList,
+            reloadNavContainer,
+            reloadContentContainer
+        );
         contentContainer.resetContentContainer();
     }
 
@@ -83,8 +92,8 @@ export function createProjectVisual(
     description,
     lists,
     addList,
-    navContainer = null,
-    contentContainer = null
+    reloadNavContainer,
+    reloadContentContainer
 ) {
     const projectContainer = GenerateElement.generatePageElement("div", [
         "project-container",
@@ -123,7 +132,7 @@ export function createProjectVisual(
 
     createNewListButton.addEventListener("click", () => {
         const newList = addList();
-        contentContainer.resetContentContainer();
+        reloadContentContainer();
         //projectContainer.appendChild(newList.listVisual);
 
         /* GeneratePage.resetPage(); */

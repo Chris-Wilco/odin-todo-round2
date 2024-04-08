@@ -14,7 +14,7 @@ export function createNavigationContainer(user) {
         navVisual.remove();
         contentContainer.resetContentContainer();
 
-        navVisual = NavigationVisual.create(
+        navVisual = createNavigationVisual(
             user,
             resetNavContainer,
             contentContainer
@@ -25,7 +25,12 @@ export function createNavigationContainer(user) {
         contentContainer = newContentContainer;
     }
 
-    return { navVisual, resetNavContainer, updateContentContainer };
+    function setUser(newUser) {
+        user = newUser;
+        resetNavContainer();
+    }
+
+    return { navVisual, resetNavContainer, updateContentContainer, setUser };
 }
 
 export function createNavigationVisual(

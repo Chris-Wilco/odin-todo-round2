@@ -1,6 +1,5 @@
 import * as GenerateLists from "./GenerateLists.js";
 import * as Navigation from "./Navigation.js";
-import * as GenerateElement from "./GeneratePageElement.js";
 import * as User from "./User.js";
 import * as ContentContainer from "./Content.js";
 
@@ -24,6 +23,12 @@ export function generatePage() {
 
     newContentContainer.updateNavContainer(newNavContainer);
     newNavContainer.updateContentContainer(newContentContainer);
+
+    newUser.updateContentContainer(newContentContainer);
+    newUser.updateNavContainer(newNavContainer);
+
+    /* newContentContainer.setUser(newUser);
+    newNavContainer.setUser(newUser); */
 
     newContentContainer.resetContentContainer();
 

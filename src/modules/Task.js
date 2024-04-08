@@ -1,5 +1,28 @@
 import * as GenerateElement from "./GeneratePageElement.js";
 
+export default class Task {
+    constructor(name, dueDate = "No due date set.") {
+        this.name = name;
+        this.dueDate = dueDate;
+    }
+
+    getName() {
+        return this.name;
+    }
+
+    setName(newName) {
+        this.name = newName;
+    }
+
+    getDate() {
+        return this.dueDate;
+    }
+
+    setDate(newDate) {
+        this.dueDate = newDate;
+    }
+}
+
 export function createNewTask(title, description, dueDate) {
     const itemVisual = createTaskVisual(title, description, dueDate);
 
