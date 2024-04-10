@@ -3,6 +3,7 @@ import * as List from "./List.js";
 export default class Project {
     constructor(name, description = "No description set", lists = []) {
         this.name = name;
+        this.description = description;
         this.lists = lists;
     }
 
@@ -29,20 +30,19 @@ export default class Project {
     setLists(lists) {
         this.lists = lists;
     }
+
+    addList() {
+        const listName = prompt("Item name?");
+        const listDescription = prompt("Item description?");
+        const newList = new List(listName, listDescription);
+        lists.push(newList);
+    }
 }
 
 //TODO: Do i need a project container for holding and creating new projects?
 //Probably... A User module? Probably...
 
 export function createProject(title, description, lists = []) {
-    function addList() {
-        const listName = prompt("Item name?");
-        const listDescription = prompt("Item description?");
-        const newList = List.createList(listName, listDescription);
-        lists.push(newList);
-        return newList;
-    }
-
     //gonna to change projectVisual to a let and see if I can update it.
     let projectVisual = createProjectVisual(
         title,

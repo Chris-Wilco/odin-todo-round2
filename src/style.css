@@ -72,7 +72,7 @@ body {
     grid-template-rows: 3rem repeat(auto-fit, minmax(10px, 0.5fr));
 
     gap: 2rem;
-    background-color: var(--nav-background-color);
+    background-color: var(--project-container-color);
     padding: 4rem 1rem;
 
     /* overflow: scroll; */
@@ -179,7 +179,7 @@ body {
     gap: 0.5rem;
 
     overflow: scroll;
-    border-radius: 0.5rem;
+    /* border-radius: 0.5rem; */
     background-color: var(--project-container-color);
     box-shadow: var(--box-shadow-values)
         rgba(var(--drop-shadow-color-color), 0.5);
@@ -189,11 +189,11 @@ body {
     display: grid;
     grid-template-columns: 5fr 1fr;
     font-size: var(--project-info-font-size);
-    border: solid black 1px;
+    /* border: solid black 1px; */
 }
 
 .project-info-container {
-    border: solid black 1px;
+    /* border: solid black 1px; */
 }
 
 .project-title {
@@ -216,7 +216,7 @@ body {
     /* background-color: rgba(var(--secondary-color), 0.5); */
     padding: 1rem;
     box-shadow: var(--minor-box-shadow-values) var(--drop-shadow-color);
-    border-radius: 0.5rem;
+    /* border-radius: 0.5rem; */
 }
 
 .list-title-container {

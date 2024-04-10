@@ -21,6 +21,13 @@ export default class User {
     setProjects(projects) {
         this.projects = projects;
     }
+
+    addProject() {
+        const projectName = prompt("Project name?");
+        const projectDescription = prompt("Project description?");
+        const newProject = new Project(projectName, projectDescription);
+        projects.push(newProject);
+    }
 }
 
 export function createUser(projects = []) {
