@@ -22,15 +22,45 @@ export default class User {
         this.projects = projects;
     }
 
-    addProject() {
+    containsProject(projectName) {
+        return this.projects.some(
+            (project) => project.getName() === projectName
+        );
+    }
+
+    addProject(newProject) {
+        if (!this.containsProject(newProject.getName())) {
+            this.projects.push(newProject);
+        }
+    }
+
+    removeProject(projectName) {
+        this.projects = this.projects.filter(
+            (project) => project.getName() !== projectName
+        );
+    }
+
+    getProject(projectName) {
+        /* if (this.containsProject(projectName)) {
+            return this.projects.find(
+                (project) => project.getName() === projectName
+            );
+        } */
+
+        return this.projects.find(
+            (project) => project.getName() === projectName
+        );
+    }
+
+    /* addProject() {
         const projectName = prompt("Project name?");
         const projectDescription = prompt("Project description?");
         const newProject = new Project(projectName, projectDescription);
         projects.push(newProject);
-    }
+    } */
 }
 
-export function createUser(projects = []) {
+/* export function createUser(projects = []) {
     function addProject() {
         const projectName = prompt("Project name?");
         const projectDescription = prompt("Project description?");
@@ -61,3 +91,4 @@ export function createUser(projects = []) {
 
     return { projects, addProject, updateNavContainer, updateContentContainer };
 }
+ */

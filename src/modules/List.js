@@ -41,7 +41,7 @@ export default class List {
     }
 
     addTask(newTask) {
-        if (!this.containsTask(newTask)) {
+        if (!this.containsTask(newTask.getName())) {
             this.tasks.push(newTask);
         }
     }

@@ -31,12 +31,26 @@ export default class Project {
         this.lists = lists;
     }
 
-    addList() {
+    containsList(listName) {
+        return this.lists.some((list) => list.getName() == listName);
+    }
+
+    addList(newList) {
+        if (!this.containsList(newList.getName())) {
+            this.lists.push(newList);
+        }
+    }
+
+    removeList(listName) {
+        this.lists = this.lists.filter((list) => list.getName() !== listName);
+    }
+
+    /* addList() {
         const listName = prompt("Item name?");
         const listDescription = prompt("Item description?");
         const newList = new List(listName, listDescription);
         lists.push(newList);
-    }
+    } */
 }
 
 //TODO: Do i need a project container for holding and creating new projects?
