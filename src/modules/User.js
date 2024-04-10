@@ -1,5 +1,28 @@
 import * as Project from "./Project.js";
 
+export default class User {
+    constructor(name, projects = []) {
+        this.name = name;
+        this.projects = projects;
+    }
+
+    getName() {
+        return this.name;
+    }
+
+    setName(newName) {
+        this.name = newName;
+    }
+
+    getProjects() {
+        return this.projects;
+    }
+
+    setProjects(projects) {
+        this.projects = projects;
+    }
+}
+
 export function createUser(projects = []) {
     function addProject() {
         const projectName = prompt("Project name?");

@@ -1,16 +1,35 @@
-/* export class Project {
-    constructor(name) {
+import * as List from "./List.js";
+
+export default class Project {
+    constructor(name, description = "No description set", lists = []) {
         this.name = name;
-        this.projectTasks = [];
+        this.lists = lists;
     }
 
     getName() {
         return this.name;
     }
-}
- */
 
-import * as List from "./List.js";
+    setName(newName) {
+        this.name = newName;
+    }
+
+    getDescription() {
+        return this.description;
+    }
+
+    setDescription(newDescription) {
+        this.description = newDescription;
+    }
+
+    getTasks() {
+        return this.lists;
+    }
+
+    setLists(lists) {
+        this.lists = lists;
+    }
+}
 
 //TODO: Do i need a project container for holding and creating new projects?
 //Probably... A User module? Probably...
