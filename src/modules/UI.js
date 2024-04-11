@@ -77,14 +77,68 @@ export default class UI {
 
     static populateNavContent(navContentContainer, projects) {
         projects.forEach((project) => {
-            /* const navProjectVisual = ProjectNavVisual.create(
-            project.title,
-            project.lists
-        );
-        navContentContainer.appendChild(navProjectVisual); */
-
-            navContentContainer.appendChild(project.projectNavVisual);
+            navContentContainer.appendChild(createProjectNavVisual(project));
         });
+    }
+
+    static createProjectNavVisual(project) {
+        const projectContainer = GenerateElement.generatePageElement("div", [
+            "nav-project-container",
+        ]);
+
+        const projectTitleContainer = GenerateElement.generatePageElement(
+            "div",
+            ["nav-project-title-container"],
+            projectContainer
+        );
+
+        const projectTitleIcon = GenerateElement.generatePageElement(
+            "div",
+            ["nav-project-title-icon"],
+            projectTitleContainer
+        );
+
+        const projectTitle = GenerateElement.generatePageElement(
+            "div",
+            ["nav-project-title"],
+            projectTitleContainer,
+            project.name
+        );
+
+        //TODO: Each project listed in the nav needs to be able to open itself in the main content space
+
+        const projectContentContainer = GenerateElement.generatePageElement(
+            "div",
+            ["nav-project-content-container"],
+            projectContainer
+        );
+
+        project.lists.forEach((list) => {
+            projectContentContainer.appendChild(createListNavVisual(list));
+        });
+
+        return projectContainer;
+    }
+
+    static createListNavVisual(list) {
+        const listTitleContainer = GenerateElement.generatePageElement("div", [
+            "nav-list-title-container",
+        ]);
+
+        const listTitleIcon = GenerateElement.generatePageElement(
+            "div",
+            ["nav-list-title-icon"],
+            listTitleContainer
+        );
+
+        const listTitleDiv = GenerateElement.generatePageElement(
+            "div",
+            ["nav-list-title"],
+            listTitleContainer,
+            list.name
+        );
+
+        return listTitleContainer;
     }
 
     //Checks that a project by that name exists and then sends that project name on to be added to the workspace
