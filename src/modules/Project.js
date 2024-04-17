@@ -1,4 +1,4 @@
-import * as List from "./List.js";
+//import * as List from "./List.js";
 
 export default class Project {
     constructor(name, description = "No description set", lists = []) {

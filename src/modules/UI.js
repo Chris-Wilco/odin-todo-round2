@@ -2,8 +2,11 @@ import * as GenerateElement from "./GeneratePageElement.js";
 
 export default class UI {
     //Initialize page body, nav container, and content container page elements to be later populated
-    constructor(user) {
-        this.user = user;
+    constructor() {
+        const newStorage = new Storage();
+        const userList = newStorage.getUsers();
+
+        this.user = userList[0];
         this.pageBody = document.querySelector("body");
         this.navContainer = GenerateElement.generatePageElement(
             "div",

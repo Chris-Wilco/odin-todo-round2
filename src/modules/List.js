@@ -1,5 +1,5 @@
-import * as Task from "./Task.js";
-import * as GenerateElement from "./GeneratePageElement.js";
+//import * as Task from "./Task.js";
+//import * as GenerateElement from "./GeneratePageElement.js";
 
 export default class List {
     constructor(name, description = "No description set", tasks = []) {

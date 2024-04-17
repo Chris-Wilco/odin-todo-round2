@@ -4,4 +4,4 @@ import * as UI from "./modules/UI.js";
 
 /* const newPage = Page.generatePage(); */
 
-const newPage = new UI(user);
+const newPage = new UI();

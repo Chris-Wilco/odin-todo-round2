@@ -1,5 +1,3 @@
-import * as Project from "./Project.js";
-
 export default class User {
     constructor(name, projects = []) {
         this.name = name;
