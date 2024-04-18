@@ -23,27 +23,27 @@ export default class UI {
         );
         this.pageBody.appendChild(this.contentContainer);
 
-        UI.loadPageContent();
+        this.loadPageContent();
     }
 
     //Clears and populates nav and display panes
-    static loadPageContent() {
-        UI.clearNavContent();
-        UI.fillNavContent();
-        UI.clearDisplayContent();
-        UI.fillDisplayPaneContent();
+    loadPageContent() {
+        this.clearNavContent();
+        this.fillNavContent();
+        this.clearDisplayContent();
+        this.fillDisplayPaneContent();
     }
 
-    static clearNavContent() {
-        this.navContainer.replaceChildren();
-        //GenerateElement.clearNodeContent(this.navContainer);
+    clearNavContent() {
+        /* this.navContainer.replaceChildren(); */
+        GenerateElement.clearNodeContent(this.navContainer);
     }
 
-    static clearDisplayContent() {
+    clearDisplayContent() {
         GenerateElement.clearNodeContent(this.contentContainer);
     }
 
-    static fillNavContent() {
+    fillNavContent() {
         const navTitleContainer = GenerateElement.generatePageElement(
             "div",
             ["nav-title-container"],
@@ -72,21 +72,23 @@ export default class UI {
         const navContentContainer = GenerateElement.generatePageElement(
             "div",
             ["nav-content-container"],
-            navContainer
+            this.navContainer
         );
 
-        UI.populateNavContent(navContentContainer, user.projects);
+        this.populateNavContent(navContentContainer, this.user.projects);
 
-        navContainer.appendChild(navContentContainer);
+        this.navContainer.appendChild(navContentContainer);
     }
 
-    static populateNavContent(navContentContainer, projects) {
+    populateNavContent(navContentContainer, projects) {
         projects.forEach((project) => {
-            navContentContainer.appendChild(createProjectNavVisual(project));
+            navContentContainer.appendChild(
+                this.createProjectNavVisual(project)
+            );
         });
     }
 
-    static createProjectNavVisual(project) {
+    createProjectNavVisual(project) {
         const projectContainer = GenerateElement.generatePageElement("div", [
             "nav-project-container",
         ]);
@@ -119,13 +121,13 @@ export default class UI {
         );
 
         project.lists.forEach((list) => {
-            projectContentContainer.appendChild(createListNavVisual(list));
+            projectContentContainer.appendChild(this.createListNavVisual(list));
         });
 
         return projectContainer;
     }
 
-    static createListNavVisual(list) {
+    createListNavVisual(list) {
         const listTitleContainer = GenerateElement.generatePageElement("div", [
             "nav-list-title-container",
         ]);
@@ -147,14 +149,14 @@ export default class UI {
     }
 
     //Checks that a project by that name exists and then sends that project name on to be added to the workspace
-    static fillDisplayPaneContent(projectName = "default") {
-        if (!user.containsProject(projectName)) {
+    fillDisplayPaneContent(projectName = "default") {
+        if (!this.user.containsProject(projectName)) {
             return;
         }
         this.createProjectVisual(user.getProject(projectName));
     }
 
-    static createProjectVisual(project) {
+    createProjectVisual(project) {
         const projectContainer = GenerateElement.generatePageElement("div", [
             "project-container",
         ]);
@@ -210,14 +212,14 @@ export default class UI {
         contentContainer.appendChild(projectContainer);
     }
 
-    static appendAllListsToProject(projectContainer, lists) {
+    appendAllListsToProject(projectContainer, lists) {
         lists.forEach((list) => {
             projectContainer.appendChild(this.createListVisual(list));
             //TODO: Make this append the visual for each list contained in this project to the workspace. => I think it does this now.
         });
     }
 
-    static createListVisual(list) {
+    createListVisual(list) {
         const listContainer = GenerateElement.generatePageElement("div", [
             "list-container",
         ]);
