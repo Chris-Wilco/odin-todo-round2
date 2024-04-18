@@ -1,5 +1,9 @@
 import * as GenerateElement from "./GeneratePageElement.js";
 import Storage from "./Storage.js";
+import Task from "./Task.js";
+import List from "./List.js";
+import Project from "./Project.js";
+import User from "./User.js";
 
 export default class UI {
     //Initialize page body, nav container, and content container page elements to be later populated
@@ -31,16 +35,19 @@ export default class UI {
         this.clearNavContent();
         this.fillNavContent();
         this.clearDisplayContent();
-        this.fillDisplayPaneContent();
+        console.log(this.user.projects[0]);
+        /* this.fillDisplayPaneContent(this.user.projects[0]); */
+        this.fillDisplayPaneContent("project 1");
     }
 
     clearNavContent() {
-        /* this.navContainer.replaceChildren(); */
-        GenerateElement.clearNodeContent(this.navContainer);
+        this.navContainer.replaceChildren();
+        /* GenerateElement.clearNodeContent(this.navContainer); */
     }
 
     clearDisplayContent() {
-        GenerateElement.clearNodeContent(this.contentContainer);
+        this.contentContainer.replaceChildren();
+        /* GenerateElement.clearNodeContent(this.contentContainer); */
     }
 
     fillNavContent() {
@@ -153,7 +160,7 @@ export default class UI {
         if (!this.user.containsProject(projectName)) {
             return;
         }
-        this.createProjectVisual(user.getProject(projectName));
+        this.createProjectVisual(this.user.getProject(projectName));
     }
 
     createProjectVisual(project) {
@@ -207,9 +214,9 @@ export default class UI {
             //TODO: link this to also remove the nav bar representation of this list
         });
 
-        appendAllListsToProject(projectContainer, project.lists);
+        this.appendAllListsToProject(projectContainer, project.lists);
 
-        contentContainer.appendChild(projectContainer);
+        this.contentContainer.appendChild(projectContainer);
     }
 
     appendAllListsToProject(projectContainer, lists) {
@@ -256,9 +263,13 @@ export default class UI {
             listTitleContainer
         );
         addNewItemButton.addEventListener("click", () => {
-            /* const newItem = addListItem();
-            listContainer.appendChild(newItem.itemVisual); */
-            //TODO: Have this generate a new task, append that task to the list items, then reload the list visual to reflect this change
+            const taskName = prompt("Item name?");
+            const taskDescription = prompt("Item description?");
+            const taskDueDate = prompt("Item due date?");
+
+            const newTask = new Task(taskName, taskDescription, taskDueDate);
+            list.addTask(newTask);
+            this.loadPageContent();
         });
 
         const removeListButton = GenerateElement.generatePageElement(
@@ -270,9 +281,11 @@ export default class UI {
         removeListButton.addEventListener("click", () => {
             listContainer.remove();
             //TODO: link this to also remove the nav bar representation of this list
+
+            //TODO: need the project so I can delete the list
         });
 
-        appendWholeItemList(listContainer, list);
+        this.appendWholeItemList(listContainer, list);
 
         return listContainer;
     }
