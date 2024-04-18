@@ -1,10 +1,16 @@
 //import * as List from "./List.js";
 
 export default class Project {
-    constructor(name, description = "No description set", lists = []) {
+    constructor(
+        name,
+        description = "No description set",
+        lists = [],
+        parentUser
+    ) {
         this.name = name;
         this.description = description;
         this.lists = lists;
+        this.parentUser = parentUser;
     }
 
     getName() {

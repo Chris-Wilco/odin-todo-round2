@@ -2,10 +2,16 @@
 //import * as GenerateElement from "./GeneratePageElement.js";
 
 export default class List {
-    constructor(name, description = "No description set", tasks = []) {
+    constructor(
+        name,
+        description = "No description set",
+        tasks = [],
+        parentProject
+    ) {
         this.name = name;
         this.description = description;
         this.tasks = tasks;
+        this.parentProject = parentProject;
     }
 
     getName() {

@@ -349,7 +349,8 @@ export default class UI {
             "remove item"
         );
         removeItemButton.addEventListener("click", () => {
-            taskContainer.remove();
+            //taskContainer.remove();
+            //Needs to actually delete the task from the array of tasks in the List object, then regenerate the list elements on the page to reflect this change
         });
 
         return taskContainer;

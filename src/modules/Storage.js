@@ -7,70 +7,80 @@ import User from "./User.js";
 
 export default class Storage {
     constructor() {
-        const jsonInfo = JSON.parse(JSON.stringify(storageFile));
-        this.userList = this.parseUsers(jsonInfo);
+        const jsonText = JSON.parse(JSON.stringify(storageFile));
+        this.userList = this.parseUsers(jsonText);
     }
 
     getUsers() {
         return this.userList;
     }
 
+    //TODO: Do we need a user container object to then be able to commit back into the json file?
+
     parseUsers(jsonText) {
         const users = [];
 
         jsonText.forEach((user) => {
             const userName = user.name;
-            const userProjects = this.parseProjects(user.projects);
-            const newUser = new User(userName, userProjects);
-
+            const newUser = new User(userName, [], jsonText);
+            const userProjects = this.parseProjects(user.projects, newUser);
+            newUser.setProjects(userProjects);
             users.push(newUser);
         });
-
-        /* const thisUser = jsonText[0];
-        const userName = thisUser.name;
-        const userProjects = thisUser.parseProjects(user.projects);
-        const newUser = new User(userName, userProjects);
-
-        users.push(newUser); */
 
         return users;
     }
 
-    parseProjects(jsonProjects) {
+    //Create parent user first and *then* generate the list of projects once the user object already exists?
+
+    parseProjects(jsonProjects, parentUser) {
         const projects = [];
         jsonProjects.forEach((project) => {
             const projectName = project.name;
             const projectDescription = project.description;
-            const projectLists = this.parseLists(project.lists);
             const newProject = new Project(
                 projectName,
                 projectDescription,
-                projectLists
+                [],
+                parentUser
             );
+            const projectLists = this.parseLists(project.lists, newProject);
+            newProject.setLists(projectLists);
             projects.push(newProject);
         });
         return projects;
     }
 
-    parseLists(jsonLists) {
+    parseLists(jsonLists, parentProject) {
         const lists = [];
         jsonLists.forEach((list) => {
             const listName = list.name;
             const listDescription = list.description;
-            const listTasks = this.parseTasks(list.tasks);
-            const newList = new List(listName, listDescription, listTasks);
+            const newList = new List(
+                listName,
+                listDescription,
+                [],
+                parentProject
+            );
+            const listTasks = this.parseTasks(list.tasks, newList);
+            newList.setTasks(listTasks);
             lists.push(newList);
         });
         return lists;
     }
 
-    parseTasks(jsonTasks) {
+    parseTasks(jsonTasks, parentList) {
         const tasks = [];
         jsonTasks.forEach((task) => {
             const taskName = task.name;
             const taskDescription = task.description;
             const taskDueDate = task.dueDate;
-            const newTask = new Task(taskName, taskDueDate, taskDescription);
+            const newTask = new Task(
+                taskName,
+                taskDueDate,
+                taskDescription,
+                parentList
+            );
             tasks.push(newTask);
         });
         return tasks;

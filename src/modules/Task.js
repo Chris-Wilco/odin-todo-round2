@@ -4,11 +4,13 @@ export default class Task {
     constructor(
         name,
         dueDate = "No due date set.",
-        description = "No description set yet."
+        description = "No description set yet.",
+        parentList
     ) {
         this.name = name;
         this.dueDate = dueDate;
         this.description = description;
+        this.parentList = parentList;
     }
 
     getName() {
