@@ -26,8 +26,8 @@ export function generatePageElement(
     return newElement;
 }
 
-export function clearNodeContent(node) {
-    while (node.lastElementChild) {
-        node.removeChild(node.lastElementChild);
+export function clearNodeContent(thisNode) {
+    while (thisNode.firstChild) {
+        thisNode.removeChild(thisNode.lastChild);
     }
 }

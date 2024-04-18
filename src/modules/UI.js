@@ -1,4 +1,5 @@
 import * as GenerateElement from "./GeneratePageElement.js";
+import Storage from "./Storage.js";
 
 export default class UI {
     //Initialize page body, nav container, and content container page elements to be later populated
@@ -13,14 +14,14 @@ export default class UI {
             ["nav-container"],
             document.querySelector("body")
         );
-        pageBody.appendChild(navContainer);
+        this.pageBody.appendChild(this.navContainer);
 
         this.contentContainer = GenerateElement.generatePageElement(
             "div",
             ["content-container"],
             document.querySelector("body")
         );
-        pageBody.appendChild(contentContainer);
+        this.pageBody.appendChild(this.contentContainer);
 
         UI.loadPageContent();
     }
@@ -34,18 +35,19 @@ export default class UI {
     }
 
     static clearNavContent() {
-        GenerateElement.clearNodeContent(navContainer);
+        this.navContainer.replaceChildren();
+        //GenerateElement.clearNodeContent(this.navContainer);
     }
 
     static clearDisplayContent() {
-        GenerateElement.clearNodeContent(contentContainer);
+        GenerateElement.clearNodeContent(this.contentContainer);
     }
 
     static fillNavContent() {
         const navTitleContainer = GenerateElement.generatePageElement(
             "div",
             ["nav-title-container"],
-            navContainer
+            this.navContainer
         );
 
         const navTitle = GenerateElement.generatePageElement(

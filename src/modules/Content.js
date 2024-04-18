@@ -1,4 +1,4 @@
-import * as GenerateElement from "./GeneratePageElement.js";
+/* import * as GenerateElement from "./GeneratePageElement.js";
 
 export function createContentContainer(user) {
     let navContainer;
@@ -44,3 +44,4 @@ export function createContentContainer(user) {
         setUser,
     };
 }
+ */
