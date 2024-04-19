@@ -1,6 +1,7 @@
 //import * as List from "./List.js";
 
 export default class Project {
+    //TODO: Should the project have a reference to the UI element containing it's information to make updating said UI element easier?
     constructor(
         name,
         description = "No description set",

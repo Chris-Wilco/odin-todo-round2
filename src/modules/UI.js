@@ -210,8 +210,11 @@ export default class UI {
             "delete project"
         );
         removeProjectButton.addEventListener("click", () => {
-            projectContainer.remove();
+            /* projectContainer.remove(); */
             //TODO: link this to also remove the nav bar representation of this list
+            project.parentUser.removeProject(project.name);
+            this.loadPageContent();
+            //TODO: this also needs to update the json file of record to save page state on reload
         });
 
         this.appendAllListsToProject(projectContainer, project.lists);
@@ -279,10 +282,10 @@ export default class UI {
             "delete list"
         );
         removeListButton.addEventListener("click", () => {
-            listContainer.remove();
-            //TODO: link this to also remove the nav bar representation of this list
-
-            //TODO: need the project so I can delete the list
+            //TODO: Reload just the content in the containing UI node?
+            list.parentProject.removeList(list.name);
+            this.loadPageContent();
+            //TODO: this also needs to update the json file of record to save page state on reload
         });
 
         this.appendWholeItemList(listContainer, list);
@@ -292,16 +295,22 @@ export default class UI {
 
     appendWholeItemList(listContainer, list) {
         list.tasks.forEach((task) => {
-            listContainer.appendChild(this.createTaskVisual(task));
+            const taskContainer = GenerateElement.generatePageElement("div", [
+                "item-container",
+            ]);
+            this.createTaskVisual(task, taskContainer);
+            listContainer.appendChild(taskContainer);
+
+            /* listContainer.appendChild(this.createTaskVisual(task)); */
             /* listContainer.appendChild(item.itemVisual); */
             //TODO: Have this append the DOM element created for each task => I think it does this now
         });
     }
 
-    createTaskVisual(task) {
-        const taskContainer = GenerateElement.generatePageElement("div", [
+    createTaskVisual(task, taskContainer) {
+        /* const taskContainer = GenerateElement.generatePageElement("div", [
             "item-container",
-        ]);
+        ]); */
 
         const checkboxContainer = GenerateElement.generatePageElement(
             "div",
@@ -349,8 +358,11 @@ export default class UI {
             "remove item"
         );
         removeItemButton.addEventListener("click", () => {
-            //taskContainer.remove();
-            //Needs to actually delete the task from the array of tasks in the List object, then regenerate the list elements on the page to reflect this change
+            //Can I just repopulate the div that contains this list?
+            //Just gonna make it regenerate the entire page for now....
+            task.parentList.removeTask(task.name);
+            this.loadPageContent();
+            //TODO: this also needs to update the json file of record to save page state on reload
         });
 
         return taskContainer;
