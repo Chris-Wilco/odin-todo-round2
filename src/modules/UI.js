@@ -162,13 +162,21 @@ export default class UI {
         if (!this.user.containsProject(projectName)) {
             return;
         }
-        this.createProjectVisual(this.user.getProject(projectName));
-    }
-
-    createProjectVisual(project) {
         const projectContainer = GenerateElement.generatePageElement("div", [
             "project-container",
         ]);
+
+        this.createProjectVisual(
+            this.user.getProject(projectName),
+            projectContainer
+        );
+        this.contentContainer.appendChild(projectContainer);
+    }
+
+    createProjectVisual(project, projectContainer) {
+        /* const projectContainer = GenerateElement.generatePageElement("div", [
+            "project-container",
+        ]); */
 
         const projectTitleContainer = GenerateElement.generatePageElement(
             "div",
@@ -200,10 +208,17 @@ export default class UI {
             ["new-project-list-button"],
             projectTitleContainer
         );
-
         createNewListButton.addEventListener("click", () => {
             //TODO: Make this button create a new list, add it to the project, and then reload nav and page content to reflect this change
+            const newList = this.createList(project);
+            /* project.addList(newList); */
+            this.updateProjectVisual(project);
         });
+
+        /* addNewTaskButton.addEventListener("click", () => {
+             const newTask = this.createTask(list);
+             this.updateListVisual(list);
+         }); */
 
         const removeProjectButton = GenerateElement.generatePageElement(
             "div",
@@ -212,7 +227,6 @@ export default class UI {
             "delete project"
         );
         removeProjectButton.addEventListener("click", () => {
-            /* projectContainer.remove(); */
             //TODO: link this to also remove the nav bar representation of this list
             project.parentUser.removeProject(project.name);
             this.loadPageContent();
@@ -223,13 +237,11 @@ export default class UI {
 
         project.setContainerNode(projectContainer);
 
-        this.contentContainer.appendChild(projectContainer);
+        /* this.contentContainer.appendChild(projectContainer); */
     }
 
     appendAllListsToProject(projectContainer, lists) {
         lists.forEach((list) => {
-            /* projectContainer.appendChild(this.createListVisual(list)); */
-            //TODO: Make this append the visual for each list contained in this project to the workspace. => I think it does this now.
             this.appendList(list, projectContainer);
         });
     }
@@ -243,10 +255,6 @@ export default class UI {
     }
 
     createListVisual(list, listContainer) {
-        /* const listContainer = GenerateElement.generatePageElement("div", [
-            "list-container",
-        ]); */
-
         const listTitleContainer = GenerateElement.generatePageElement(
             "div",
             ["list-title-container"],
@@ -279,16 +287,8 @@ export default class UI {
             listTitleContainer
         );
         addNewTaskButton.addEventListener("click", () => {
-            /* const taskName = prompt("Item name?");
-            const taskDescription = prompt("Item description?");
-            const taskDueDate = prompt("Item due date?");
-
-            const newTask = new Task(taskName, taskDescription, taskDueDate); */
-
-            const newTask = this.createTask();
-
-            list.addTask(newTask);
-            this.loadPageContent();
+            const newTask = this.createTask(list);
+            this.updateListVisual(list);
         });
 
         const removeListButton = GenerateElement.generatePageElement(
@@ -300,15 +300,14 @@ export default class UI {
         removeListButton.addEventListener("click", () => {
             //TODO: Reload just the content in the containing UI node?
             list.parentProject.removeList(list.name);
-            this.loadPageContent();
+            /* this.loadPageContent(); */
+            this.updateProjectVisual(list.parentProject);
             //TODO: this also needs to update the json file of record to save page state on reload
         });
 
         this.appendTaskList(listContainer, list);
-
-        //TODO: Does the list container need to be set elsewhere?
         list.setContainerNode(listContainer);
-
+        //Does this list container
         return listContainer;
     }
 
@@ -366,17 +365,15 @@ export default class UI {
             task.dueDate
         );
 
-        const removeItemButton = GenerateElement.generatePageElement(
+        const removeTaskButton = GenerateElement.generatePageElement(
             "div",
             ["item-remove-button"],
             taskContainer,
             "remove item"
         );
-        removeItemButton.addEventListener("click", () => {
-            //Can I repopulate just the div that contains this list?
-            //Just gonna make it regenerate the entire page for now....
+        removeTaskButton.addEventListener("click", () => {
             task.parentList.removeTask(task.name);
-            this.loadPageContent();
+            this.updateListVisual(task.parentList);
             //TODO: this also needs to update the json file of record to save page state on reload
         });
 
@@ -387,51 +384,57 @@ export default class UI {
             "edit item"
         );
         editTaskButton.addEventListener("click", () => {
-            //TODO: Needs to trigger functionality for the task to update it's own info and then repopulate the taskContainer div with that new information
             this.editTask(task);
-            this.updateTaskVisual(task, taskContainer);
+            this.updateTaskVisual(task);
         });
 
         task.setContainerNode(taskContainer);
-        console.log(task.containerNode);
-
         return taskContainer;
     }
 
-    createTask() {
+    createTask(parentList) {
         const taskName = prompt("Item name?");
         const taskDescription = prompt("Item description?");
         const taskDueDate = prompt("Item due date?");
 
-        const newTask = new Task(taskName, taskDescription, taskDueDate);
-        return newTask;
+        const newTask = new Task(
+            taskName,
+            taskDescription,
+            taskDueDate,
+            parentList
+        );
+
+        parentList.addTask(newTask);
     }
 
     editTask(task) {
-        //TODO: Fill in prompt default fill with the current task information
-        const taskName = prompt("New task name?");
-        const taskDescription = prompt("New task description?");
-        const taskDueDate = prompt("New task due date?");
+        const taskName = prompt("New task name?", `${task.name}`);
+        const taskDescription = prompt(
+            "New task description?",
+            `${task.description}`
+        );
+        const taskDueDate = prompt("New task due date?", `${task.dueDate}`);
 
         task.setName(taskName);
         task.setDate(taskDueDate);
         task.setDescription(taskDescription);
     }
 
-    updateTaskVisual(task, taskContainer) {
-        this.clearTaskVisual(taskVisual);
-        this.createTaskVisual(task, taskContainer);
+    updateTaskVisual(task) {
+        this.clearTaskVisual(task.containerNode);
+        this.createTaskVisual(task, task.containerNode);
     }
 
     clearTaskVisual(taskVisual) {
         taskVisual.replaceChildren();
     }
 
-    createList() {
+    createList(parentProject) {
         const listName = prompt("List name?");
         const listDescription = prompt("List description?");
-        const newList = new List(listName, listDescription);
-        return newList;
+        const newList = new List(listName, listDescription, [], parentProject);
+
+        parentProject.addList(newList);
     }
 
     editList(list) {
@@ -442,10 +445,9 @@ export default class UI {
         list.setDescription = listDescription;
     }
 
-    updateListVisual(list, listContainer) {
-        //TODO: Set this up so that we don't need list container input as a separate parameter?
-        this.clearListVisual();
-        this.createListVisual(list, listContainer);
+    updateListVisual(list) {
+        this.clearListVisual(list.containerNode);
+        this.createListVisual(list, list.containerNode);
     }
 
     clearListVisual(listVisual) {
@@ -460,10 +462,9 @@ export default class UI {
         project.description = projectDescription;
     }
 
-    updateProjectVisual(project, projectVisual) {
-        this.clearProjectVisual(projectVisual);
-        /* this.createProjectVisual(project); */
-        //TODO
+    updateProjectVisual(project) {
+        this.clearProjectVisual(project.containerNode);
+        this.createProjectVisual(project, project.containerNode);
     }
 
     clearProjectVisual(projectVisual) {
