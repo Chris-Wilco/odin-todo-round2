@@ -252,6 +252,7 @@ export default class UI {
         ]);
         this.createListVisual(list, listContainer);
         projectContainer.appendChild(listContainer);
+        //ITHINK: I think I was staring here when I lost focus and forgot what I was messing with....
     }
 
     createListVisual(list, listContainer) {
