@@ -55,4 +55,16 @@ export default class List {
     removeTask(taskName) {
         this.tasks = this.tasks.filter((task) => task.getName() !== taskName);
     }
+
+    setContainerNode(containerNode) {
+        this.containerNode = containerNode;
+    }
+
+    getContainerNode() {
+        if (this.containerNode) {
+            return this.containerNode;
+        }
+        //TODO: Should there be a return value if there isn't a node assigned already?
+        //Should this property just be initialized as a blank somehow when this object is created?
+    }
 }

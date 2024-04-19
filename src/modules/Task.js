@@ -36,4 +36,16 @@ export default class Task {
     setDescription(newDescription) {
         this.description = newDescription;
     }
+
+    setContainerNode(containerNode) {
+        this.containerNode = containerNode;
+    }
+
+    getContainerNode() {
+        if (this.containerNode) {
+            return this.containerNode;
+        }
+        //TODO: Should there be a return value if there isn't a node assigned already?
+        //Should this property just be initialized as a blank somehow when this object is created?
+    }
 }

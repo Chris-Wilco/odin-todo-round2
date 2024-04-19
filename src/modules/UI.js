@@ -131,6 +131,8 @@ export default class UI {
             projectContentContainer.appendChild(this.createListNavVisual(list));
         });
 
+        /* project.setContainerNode(projectContainer); */
+
         return projectContainer;
     }
 
@@ -219,20 +221,31 @@ export default class UI {
 
         this.appendAllListsToProject(projectContainer, project.lists);
 
+        project.setContainerNode(projectContainer);
+
         this.contentContainer.appendChild(projectContainer);
     }
 
     appendAllListsToProject(projectContainer, lists) {
         lists.forEach((list) => {
-            projectContainer.appendChild(this.createListVisual(list));
+            /* projectContainer.appendChild(this.createListVisual(list)); */
             //TODO: Make this append the visual for each list contained in this project to the workspace. => I think it does this now.
+            this.appendList(list, projectContainer);
         });
     }
 
-    createListVisual(list) {
+    appendList(list, projectContainer) {
         const listContainer = GenerateElement.generatePageElement("div", [
             "list-container",
         ]);
+        this.createListVisual(list, listContainer);
+        projectContainer.appendChild(listContainer);
+    }
+
+    createListVisual(list, listContainer) {
+        /* const listContainer = GenerateElement.generatePageElement("div", [
+            "list-container",
+        ]); */
 
         const listTitleContainer = GenerateElement.generatePageElement(
             "div",
@@ -260,17 +273,20 @@ export default class UI {
             list.description
         );
 
-        const addNewItemButton = GenerateElement.generatePageElement(
+        const addNewTaskButton = GenerateElement.generatePageElement(
             "div",
             ["new-list-item-button"],
             listTitleContainer
         );
-        addNewItemButton.addEventListener("click", () => {
-            const taskName = prompt("Item name?");
+        addNewTaskButton.addEventListener("click", () => {
+            /* const taskName = prompt("Item name?");
             const taskDescription = prompt("Item description?");
             const taskDueDate = prompt("Item due date?");
 
-            const newTask = new Task(taskName, taskDescription, taskDueDate);
+            const newTask = new Task(taskName, taskDescription, taskDueDate); */
+
+            const newTask = this.createTask();
+
             list.addTask(newTask);
             this.loadPageContent();
         });
@@ -288,30 +304,29 @@ export default class UI {
             //TODO: this also needs to update the json file of record to save page state on reload
         });
 
-        this.appendWholeItemList(listContainer, list);
+        this.appendTaskList(listContainer, list);
+
+        //TODO: Does the list container need to be set elsewhere?
+        list.setContainerNode(listContainer);
 
         return listContainer;
     }
 
-    appendWholeItemList(listContainer, list) {
+    appendTaskList(listContainer, list) {
         list.tasks.forEach((task) => {
-            const taskContainer = GenerateElement.generatePageElement("div", [
-                "item-container",
-            ]);
-            this.createTaskVisual(task, taskContainer);
-            listContainer.appendChild(taskContainer);
-
-            /* listContainer.appendChild(this.createTaskVisual(task)); */
-            /* listContainer.appendChild(item.itemVisual); */
-            //TODO: Have this append the DOM element created for each task => I think it does this now
+            this.appendTask(task, listContainer);
         });
     }
 
-    createTaskVisual(task, taskContainer) {
-        /* const taskContainer = GenerateElement.generatePageElement("div", [
+    appendTask(task, listContainer) {
+        const taskContainer = GenerateElement.generatePageElement("div", [
             "item-container",
-        ]); */
+        ]);
+        this.createTaskVisual(task, taskContainer);
+        listContainer.appendChild(taskContainer);
+    }
 
+    createTaskVisual(task, taskContainer) {
         const checkboxContainer = GenerateElement.generatePageElement(
             "div",
             ["item-checkbox-container"],
@@ -358,27 +373,100 @@ export default class UI {
             "remove item"
         );
         removeItemButton.addEventListener("click", () => {
-            //Can I just repopulate the div that contains this list?
+            //Can I repopulate just the div that contains this list?
             //Just gonna make it regenerate the entire page for now....
             task.parentList.removeTask(task.name);
             this.loadPageContent();
             //TODO: this also needs to update the json file of record to save page state on reload
         });
 
+        const editTaskButton = GenerateElement.generatePageElement(
+            "div",
+            ["item-edit-button"],
+            taskContainer,
+            "edit item"
+        );
+        editTaskButton.addEventListener("click", () => {
+            //TODO: Needs to trigger functionality for the task to update it's own info and then repopulate the taskContainer div with that new information
+            this.editTask(task);
+            this.updateTaskVisual(task, taskContainer);
+        });
+
+        task.setContainerNode(taskContainer);
+        console.log(task.containerNode);
+
         return taskContainer;
     }
+
+    createTask() {
+        const taskName = prompt("Item name?");
+        const taskDescription = prompt("Item description?");
+        const taskDueDate = prompt("Item due date?");
+
+        const newTask = new Task(taskName, taskDescription, taskDueDate);
+        return newTask;
+    }
+
+    editTask(task) {
+        //TODO: Fill in prompt default fill with the current task information
+        const taskName = prompt("New task name?");
+        const taskDescription = prompt("New task description?");
+        const taskDueDate = prompt("New task due date?");
+
+        task.setName(taskName);
+        task.setDate(taskDueDate);
+        task.setDescription(taskDescription);
+    }
+
+    updateTaskVisual(task, taskContainer) {
+        this.clearTaskVisual(taskVisual);
+        this.createTaskVisual(task, taskContainer);
+    }
+
+    clearTaskVisual(taskVisual) {
+        taskVisual.replaceChildren();
+    }
+
+    createList() {
+        const listName = prompt("List name?");
+        const listDescription = prompt("List description?");
+        const newList = new List(listName, listDescription);
+        return newList;
+    }
+
+    editList(list) {
+        const listName = prompt("List name?");
+        const listDescription = prompt("List description?");
+
+        list.setName = listName;
+        list.setDescription = listDescription;
+    }
+
+    updateListVisual(list, listContainer) {
+        //TODO: Set this up so that we don't need list container input as a separate parameter?
+        this.clearListVisual();
+        this.createListVisual(list, listContainer);
+    }
+
+    clearListVisual(listVisual) {
+        listVisual.replaceChildren();
+    }
+
+    editProject(project) {
+        const projectName = prompt("Project name?");
+        const projectDescription = prompt("Project description?");
+
+        project.name = projectName;
+        project.description = projectDescription;
+    }
+
+    updateProjectVisual(project, projectVisual) {
+        this.clearProjectVisual(projectVisual);
+        /* this.createProjectVisual(project); */
+        //TODO
+    }
+
+    clearProjectVisual(projectVisual) {
+        projectVisual.replaceChildren();
+    }
 }
-
-//clear page content
-
-//clear nav
-
-//clear content window
-
-//refresh page content
-
-//refresh nav
-
-//refresh content window
-
-//

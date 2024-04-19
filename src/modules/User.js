@@ -44,11 +44,4 @@ export default class User {
             (project) => project.getName() === projectName
         );
     }
-
-    /* addProject() {
-        const projectName = prompt("Project name?");
-        const projectDescription = prompt("Project description?");
-        const newProject = new Project(projectName, projectDescription);
-        projects.push(newProject);
-    } */
 }
