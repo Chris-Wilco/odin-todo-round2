@@ -187,7 +187,7 @@ body {
 
 .project-title-container {
     display: grid;
-    grid-template-columns: 5fr 1fr;
+    grid-template-columns: 5fr 1fr 1fr;
     font-size: var(--project-info-font-size);
     /* border: solid black 1px; */
 }
@@ -205,6 +205,12 @@ body {
 
 .new-project-list-button {
     background-image: url(./img/icons/plus.svg);
+    height: var(--nav-icon-dimension);
+    aspect-ratio: 1 / 1;
+}
+
+.close-project-button {
+    background-image: url(./img/icons/close-box-outline.svg);
     height: var(--nav-icon-dimension);
     aspect-ratio: 1 / 1;
 }

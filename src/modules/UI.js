@@ -27,22 +27,22 @@ export default class UI {
         );
         this.pageBody.appendChild(this.contentContainer);
 
-        this.loadPageContent();
+        this.loadPageContent(this.user.projects[0].name);
     }
 
     //Clears and populates nav and display panes
-    loadPageContent() {
+    loadPageContent(nameOfProjectToLoad = "") {
         this.reloadNavContent();
 
         this.clearDisplayContent();
-        console.log(this.user.projects[0]);
-        /* this.fillDisplayPaneContent(this.user.projects[0]); */
-        this.fillDisplayPaneContent("project 1");
+        //In case there isn't a project to load....
+        if (nameOfProjectToLoad != "") {
+            this.fillDisplayPaneContent(nameOfProjectToLoad);
+        }
     }
 
     clearNavContent() {
         this.navContainer.replaceChildren();
-        /* GenerateElement.clearNodeContent(this.navContainer); */
     }
 
     reloadNavContent() {
@@ -52,7 +52,6 @@ export default class UI {
 
     clearDisplayContent() {
         this.contentContainer.replaceChildren();
-        /* GenerateElement.clearNodeContent(this.contentContainer); */
     }
 
     fillNavContent() {
@@ -179,10 +178,6 @@ export default class UI {
     }
 
     createProjectVisual(project, projectContainer) {
-        /* const projectContainer = GenerateElement.generatePageElement("div", [
-            "project-container",
-        ]); */
-
         const projectTitleContainer = GenerateElement.generatePageElement(
             "div",
             ["project-title-container"],
@@ -219,19 +214,22 @@ export default class UI {
             this.reloadNavContent();
         });
 
-        /* addNewTaskButton.addEventListener("click", () => {
-             const newTask = this.createTask(list);
-             this.updateListVisual(list);
-         }); */
+        const closeProjectButton = GenerateElement.generatePageElement(
+            "div",
+            ["close-project-button"],
+            projectTitleContainer
+        );
+        closeProjectButton.addEventListener("click", () => {
+            this.clearDisplayContent();
+        });
 
-        const removeProjectButton = GenerateElement.generatePageElement(
+        const deleteProjectButton = GenerateElement.generatePageElement(
             "div",
             ["item-remove-button"],
             projectContainer,
             "delete project"
         );
-        removeProjectButton.addEventListener("click", () => {
-            //TODO: link this to also remove the nav bar representation of this list
+        deleteProjectButton.addEventListener("click", () => {
             project.parentUser.removeProject(project.name);
             this.loadPageContent();
             //TODO: this also needs to update the json file of record to save page state on reload
@@ -256,7 +254,6 @@ export default class UI {
         ]);
         this.createListVisual(list, listContainer);
         projectContainer.appendChild(listContainer);
-        //ITHINK: I think I was staring here when I lost focus and forgot what I was messing with....
     }
 
     createListVisual(list, listContainer) {
@@ -305,9 +302,7 @@ export default class UI {
         removeListButton.addEventListener("click", () => {
             list.parentProject.removeList(list.name);
             this.updateProjectVisual(list.parentProject);
-            //TODO: update the sidebar to reflect the deleted list
-            this.clearNavContent();
-            this.fillNavContent();
+            this.reloadNavContent();
 
             //TODO: this also needs to update the json file of record to save page state on reload
         });
