@@ -32,8 +32,8 @@ export default class UI {
 
     //Clears and populates nav and display panes
     loadPageContent() {
-        this.clearNavContent();
-        this.fillNavContent();
+        this.reloadNavContent();
+
         this.clearDisplayContent();
         console.log(this.user.projects[0]);
         /* this.fillDisplayPaneContent(this.user.projects[0]); */
@@ -43,6 +43,11 @@ export default class UI {
     clearNavContent() {
         this.navContainer.replaceChildren();
         /* GenerateElement.clearNodeContent(this.navContainer); */
+    }
+
+    reloadNavContent() {
+        this.clearNavContent();
+        this.fillNavContent();
     }
 
     clearDisplayContent() {
@@ -69,11 +74,9 @@ export default class UI {
             ["new-project-button"],
             navTitleContainer
         );
-        //TODO: This actually needs to add a new project to the nav and the workspace
         addNewProjectButton.addEventListener("click", () => {
-            user.addProject();
-            console.log(user.projects);
-            resetNavContainer();
+            this.createNewProject();
+            this.reloadNavContent();
         });
 
         const navContentContainer = GenerateElement.generatePageElement(
@@ -118,8 +121,10 @@ export default class UI {
             projectTitleContainer,
             project.name
         );
-
-        //TODO: Each project listed in the nav needs to be able to open itself in the main content space
+        projectTitle.addEventListener("click", () => {
+            this.clearDisplayContent();
+            this.fillDisplayPaneContent(`${project.name}`);
+        });
 
         const projectContentContainer = GenerateElement.generatePageElement(
             "div",
@@ -209,10 +214,9 @@ export default class UI {
             projectTitleContainer
         );
         createNewListButton.addEventListener("click", () => {
-            //TODO: Make this button create a new list, add it to the project, and then reload nav and page content to reflect this change
             const newList = this.createList(project);
-            /* project.addList(newList); */
             this.updateProjectVisual(project);
+            this.reloadNavContent();
         });
 
         /* addNewTaskButton.addEventListener("click", () => {
@@ -299,16 +303,18 @@ export default class UI {
             "delete list"
         );
         removeListButton.addEventListener("click", () => {
-            //TODO: Reload just the content in the containing UI node?
             list.parentProject.removeList(list.name);
-            /* this.loadPageContent(); */
             this.updateProjectVisual(list.parentProject);
+            //TODO: update the sidebar to reflect the deleted list
+            this.clearNavContent();
+            this.fillNavContent();
+
             //TODO: this also needs to update the json file of record to save page state on reload
         });
 
         this.appendTaskList(listContainer, list);
         list.setContainerNode(listContainer);
-        //Does this list container
+        //Does this (need to return?) list container
         return listContainer;
     }
 
@@ -470,5 +476,20 @@ export default class UI {
 
     clearProjectVisual(projectVisual) {
         projectVisual.replaceChildren();
+    }
+
+    createNewProject() {
+        const newProjectName = prompt("Project name?");
+        const newProjectDescription = prompt("Project description?");
+        const newProjectLists = [];
+
+        const newProject = new Project(
+            newProjectName,
+            newProjectDescription,
+            newProjectLists,
+            this.user
+        );
+
+        this.user.addProject(newProject);
     }
 }

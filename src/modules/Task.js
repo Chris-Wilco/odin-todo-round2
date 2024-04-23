@@ -1,5 +1,3 @@
-//import * as GenerateElement from "./GeneratePageElement.js";
-
 export default class Task {
     constructor(
         name,
