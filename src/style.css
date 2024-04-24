@@ -49,6 +49,8 @@
     --box-shadow-values: -0.5rem 0.8rem 0.5rem;
     --minor-box-shadow-values: -0.3rem 0.3rem 0.3rem;
     --drop-shadow-color: rgb(0, 0, 0, 0.4);
+
+    box-sizing: border-box;
 }
 
 body {
@@ -61,6 +63,7 @@ body {
     font-family: var(--general-font);
     font-size: var(--general-font-size);
     margin: 0;
+    padding: 0;
 
     height: 100vh;
 }
@@ -69,23 +72,22 @@ body {
     grid-column: 1 / 2;
 
     display: grid;
-    grid-template-rows: 3rem repeat(auto-fit, minmax(10px, 0.5fr));
+    /* grid-template-rows: 3rem repeat(auto-fit, minmax(10px, 0.5fr)); */
+    grid-template-rows: 1fr 9fr;
 
     gap: 2rem;
     background-color: var(--project-container-color);
     padding: 4rem 1rem;
 
-    /* overflow: scroll; */
     position: sticky;
     top: 0;
     margin: 0;
     height: 100vh;
 
-    /* border: 1px solid black; */
+    border: 1px solid blue;
 }
 
 .nav-title-container {
-    /* grid-column: 1 / 3; */
     grid-row: 1 / 2;
 
     display: flex;
@@ -96,29 +98,38 @@ body {
 }
 
 .nav-title {
-    /* grid-column: 1 / 2; */
 }
 
 .new-project-button {
-    /* grid-column: 3 / 4; */
     background-image: url(./img/icons/plus.svg);
     height: var(--nav-icon-dimension);
     aspect-ratio: 1 / 1;
 }
 
 .nav-content-container {
-    display: grid;
-    gap: 1rem;
-    font-size: var(--nav-info-font-size);
+    grid-row: 2 / 3;
 
-    /* border: 1px solid black; */
-    /* height: 500px; */
-    overflow: scroll;
+    /* display: grid;
+    gap: 1rem;
+    grid-template-rows: repeat(auto-fill, minmax(100px, auto));
+    align-items: start; */
+
+    display: flex;
+    flex-direction: column;
+
+    font-size: var(--nav-info-font-size);
+    /* overflow: scroll; */
+
+    border: solid red 1px;
 }
 
 .nav-project-container {
     display: grid;
     grid-template-columns: 1fr 4fr;
+
+    /* height: minmax(50px, 100px); */
+
+    border: solid pink 1px;
 }
 
 .nav-project-title-container {
@@ -140,6 +151,9 @@ body {
 
 .nav-project-content-container {
     grid-column: 2 / 3;
+    /* height: 200px; */
+
+    border: 1px solid yellow;
 }
 
 .nav-list-title-container {
@@ -165,35 +179,47 @@ body {
     background-color: var(--content-container-color);
     /* border: solid 1px red; */
 
-    height: 100vh;
+    /* height: 100vh; */
+    height: 100%;
     /* box-shadow: var(--box-shadow-values) var(--drop-shadow-color); */
 }
 
 .project-container {
     display: grid;
-    grid-template-rows: 4rem repeat(auto-fill, 1fr);
+    /* grid-template-rows: 4rem repeat(auto-fill, 1fr); */
+    grid-template-rows: 6rem 1fr;
 
     /* background-color: rgba(var(--mute-color), 1); */
     padding: 2rem;
     margin: 1rem;
     gap: 0.5rem;
 
-    overflow: scroll;
+    height: 100%;
+
+    /* overflow: scroll; */
     /* border-radius: 0.5rem; */
     background-color: var(--project-container-color);
     box-shadow: var(--box-shadow-values)
         rgba(var(--drop-shadow-color-color), 0.5);
+
+    border: solid black 1px;
 }
 
 .project-title-container {
+    grid-row: 1 / 2;
+
     display: grid;
-    grid-template-columns: 5fr 1fr 1fr;
+    grid-template-columns: 5fr 1fr;
     font-size: var(--project-info-font-size);
-    /* border: solid black 1px; */
+    border: solid black 1px;
 }
 
 .project-info-container {
-    /* border: solid black 1px; */
+    border: solid red 1px;
+}
+
+.project-control-container {
+    border: solid blue 1px;
 }
 
 .project-title {
@@ -204,15 +230,30 @@ body {
 }
 
 .new-project-list-button {
-    background-image: url(./img/icons/plus.svg);
+    /* background-image: url(./img/icons/plus.svg);
     height: var(--nav-icon-dimension);
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1 / 1; */
 }
 
 .close-project-button {
-    background-image: url(./img/icons/close-box-outline.svg);
+    /* background-image: url(./img/icons/close-box-outline.svg);
     height: var(--nav-icon-dimension);
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1 / 1; */
+}
+
+.project-card-container {
+    grid-row: 2 / 3;
+
+    /* display: grid;
+    grid-auto-rows: auto; */
+
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: scroll;
+    border: solid green 1px;
 }
 
 .list-container {

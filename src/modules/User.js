@@ -44,4 +44,16 @@ export default class User {
             (project) => project.getName() === projectName
         );
     }
+
+    parseToJSON() {
+        const JSONProjectArray = [];
+        this.projects.forEach((project) => {
+            JSONProjectArray.push(project.parseToJSON());
+        });
+
+        const userJSON = `{"name": "${this.name}", "projects": ${JSONProjectArray}}`;
+        let tempString = "" + userJSON;
+
+        return tempString;
+    }
 }

@@ -6,8 +6,12 @@ import Project from "./Project.js";
 import User from "./User.js";
 
 export default class Storage {
+    //TODO: rewire the constructor to take a localstorage object
+    //If localStorage is blank, load from userStorage file?
     constructor() {
-        const jsonText = JSON.parse(JSON.stringify(storageFile));
+        /* const jsonText = JSON.parse(JSON.stringify(storageFile)); */
+        const jsonText = JSON.parse(JSON.stringify(this.getFromLocalStorage()));
+        console.log(jsonText);
         this.userList = this.parseUsers(jsonText);
     }
 
@@ -85,4 +89,29 @@ export default class Storage {
         });
         return tasks;
     }
+
+    //TODO: method to store js user object as a json object via stringify (?)
+    sendToLocalStorage(userToStore) {
+        const allOfTheJSON = this.parseAllToJSON(userToStore);
+
+        localStorage.setItem("userStorage", allOfTheJSON);
+    }
+
+    //Should return JSON object retrieved from localStorage?
+    getFromLocalStorage() {
+        const storedUsers = localStorage.getItem("userStorage");
+        if (storedUsers != null) {
+            return storageFile;
+        }
+        return JSON.parse(storedUsers);
+    }
+
+    parseAllToJSON(userToStore) {
+        const JSONUserArray = [];
+        JSONUserArray.push(userToStore.parseToJSON());
+        console.log(JSONUserArray);
+        return JSONUserArray;
+    }
+
+    //TODO: Should there be a method to nuke localstorage of all saved data?
 }

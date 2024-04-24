@@ -63,4 +63,14 @@ export default class Project {
         //TODO: Should there be a return value if there isn't a node assigned already?
         //Should this property just be initialized as a blank somehow when this object is created?
     }
+
+    parseToJSON() {
+        const JSONListArray = [];
+        this.lists.forEach((list) => {
+            JSONListArray.push(list.parseToJSON());
+        });
+
+        const projectJSON = `{"name": "${this.name}", "lists": ${JSONListArray}}`;
+        return projectJSON;
+    }
 }

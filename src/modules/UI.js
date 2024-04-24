@@ -8,10 +8,11 @@ import User from "./User.js";
 export default class UI {
     //Initialize page body, nav container, and content container page elements to be later populated
     constructor() {
-        const newStorage = new Storage();
-        const userList = newStorage.getUsers();
+        /* const newStorage = new Storage(); */
+        this.newStorage = new Storage();
+        this.userList = this.newStorage.getUsers();
 
-        this.user = userList[0];
+        this.user = this.userList[0];
         this.pageBody = document.querySelector("body");
         this.navContainer = GenerateElement.generatePageElement(
             "div",
@@ -76,6 +77,17 @@ export default class UI {
         addNewProjectButton.addEventListener("click", () => {
             this.createNewProject();
             this.reloadNavContent();
+        });
+
+        const saveButton = GenerateElement.generatePageElement(
+            "div",
+            ["nav-save-users-button"],
+            navTitleContainer,
+            "save all"
+        );
+        saveButton.addEventListener("click", () => {
+            console.log("blamo!");
+            this.newStorage.sendToLocalStorage(this.user);
         });
 
         const navContentContainer = GenerateElement.generatePageElement(
@@ -190,12 +202,25 @@ export default class UI {
             projectTitleContainer
         );
 
+        const projectControlContainer = GenerateElement.generatePageElement(
+            "div",
+            ["project-control-container"],
+            projectTitleContainer
+        );
+
+        const projectCardContainer = GenerateElement.generatePageElement(
+            "div",
+            ["project-card-container"],
+            projectContainer
+        );
+
         const projectName = GenerateElement.generatePageElement(
             "div",
             ["project-title"],
             projectInfoContainer,
             project.name
         );
+
         const projectDescription = GenerateElement.generatePageElement(
             "div",
             ["project-description"],
@@ -206,7 +231,8 @@ export default class UI {
         const createNewListButton = GenerateElement.generatePageElement(
             "div",
             ["new-project-list-button"],
-            projectTitleContainer
+            projectControlContainer,
+            "new list"
         );
         createNewListButton.addEventListener("click", () => {
             const newList = this.createList(project);
@@ -217,7 +243,8 @@ export default class UI {
         const closeProjectButton = GenerateElement.generatePageElement(
             "div",
             ["close-project-button"],
-            projectTitleContainer
+            projectControlContainer,
+            "close project"
         );
         closeProjectButton.addEventListener("click", () => {
             this.clearDisplayContent();
@@ -226,7 +253,7 @@ export default class UI {
         const deleteProjectButton = GenerateElement.generatePageElement(
             "div",
             ["item-remove-button"],
-            projectContainer,
+            projectControlContainer,
             "delete project"
         );
         deleteProjectButton.addEventListener("click", () => {
@@ -235,7 +262,7 @@ export default class UI {
             //TODO: this also needs to update the json file of record to save page state on reload
         });
 
-        this.appendAllListsToProject(projectContainer, project.lists);
+        this.appendAllListsToProject(projectCardContainer, project.lists);
 
         project.setContainerNode(projectContainer);
 
@@ -327,6 +354,7 @@ export default class UI {
         listContainer.appendChild(taskContainer);
     }
 
+    //Checkbox needs to save state between loads
     createTaskVisual(task, taskContainer) {
         const checkboxContainer = GenerateElement.generatePageElement(
             "div",
@@ -339,6 +367,16 @@ export default class UI {
             checkboxContainer
         );
         checkbox.type = "checkbox";
+        if (task.checked) {
+            checkbox.checked = true;
+        }
+        checkbox.addEventListener("click", () => {
+            if (task.checked) {
+                task.checked = false;
+            } else {
+                task.checked = true;
+            }
+        });
 
         const infoContainer = GenerateElement.generatePageElement(
             "div",
@@ -367,10 +405,16 @@ export default class UI {
             task.dueDate
         );
 
+        const taskControlsContainer = GenerateElement.generatePageElement(
+            "div",
+            ["task-controls-container"],
+            taskContainer
+        );
+
         const removeTaskButton = GenerateElement.generatePageElement(
             "div",
             ["item-remove-button"],
-            taskContainer,
+            taskControlsContainer,
             "remove item"
         );
         removeTaskButton.addEventListener("click", () => {
@@ -382,7 +426,7 @@ export default class UI {
         const editTaskButton = GenerateElement.generatePageElement(
             "div",
             ["item-edit-button"],
-            taskContainer,
+            taskControlsContainer,
             "edit item"
         );
         editTaskButton.addEventListener("click", () => {
