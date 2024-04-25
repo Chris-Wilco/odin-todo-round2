@@ -48,10 +48,4 @@ export default class Task {
         //TODO: Should there be a return value if there isn't a node assigned already?
         //Should this property just be initialized as a blank somehow when this object is created?
     }
-
-    /* parseToJSON() {
-        const taskJSON = `{"name": "${this.name}", "dueDate": "${this.dueDate}",
-"description": "${this.description}"}`;
-        return taskJSON;
-    } */
 }
