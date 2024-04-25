@@ -8,7 +8,7 @@ export default class Task {
         this.name = name;
         this.dueDate = dueDate;
         this.description = description;
-        this.parentList = parentList;
+        this.parentObject = parentList;
         this.checked = false;
     }
 

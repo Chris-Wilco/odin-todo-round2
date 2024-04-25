@@ -11,7 +11,7 @@ export default class List {
         this.name = name;
         this.description = description;
         this.tasks = tasks;
-        this.parentProject = parentProject;
+        this.parentObject = parentProject;
     }
 
     getName() {

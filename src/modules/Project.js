@@ -11,7 +11,7 @@ export default class Project {
         this.name = name;
         this.description = description;
         this.lists = lists;
-        this.parentUser = parentUser;
+        this.parentObject = parentUser;
     }
 
     getName() {

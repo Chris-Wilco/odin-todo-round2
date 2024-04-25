@@ -13,6 +13,7 @@ export default class UI {
         this.userList = this.newStorage.getUsers();
 
         this.user = this.userList[0];
+        //console.log(this.user);
         this.pageBody = document.querySelector("body");
         this.navContainer = GenerateElement.generatePageElement(
             "div",
@@ -87,7 +88,7 @@ export default class UI {
         );
         saveButton.addEventListener("click", () => {
             console.log("blamo!");
-            this.newStorage.sendToLocalStorage(this.user);
+            this.newStorage.simpleSendToStorage(this.user);
         });
 
         const navContentContainer = GenerateElement.generatePageElement(
@@ -257,7 +258,7 @@ export default class UI {
             "delete project"
         );
         deleteProjectButton.addEventListener("click", () => {
-            project.parentUser.removeProject(project.name);
+            project.parentObject.removeProject(project.name);
             this.loadPageContent();
             //TODO: this also needs to update the json file of record to save page state on reload
         });
@@ -327,8 +328,8 @@ export default class UI {
             "delete list"
         );
         removeListButton.addEventListener("click", () => {
-            list.parentProject.removeList(list.name);
-            this.updateProjectVisual(list.parentProject);
+            list.parentObject.removeList(list.name);
+            this.updateProjectVisual(list.parentObject);
             this.reloadNavContent();
 
             //TODO: this also needs to update the json file of record to save page state on reload
@@ -418,8 +419,8 @@ export default class UI {
             "remove item"
         );
         removeTaskButton.addEventListener("click", () => {
-            task.parentList.removeTask(task.name);
-            this.updateListVisual(task.parentList);
+            task.parentObject.removeTask(task.name);
+            this.updateListVisual(task.parentObject);
             //TODO: this also needs to update the json file of record to save page state on reload
         });
 

@@ -2,7 +2,7 @@ export default class User {
     constructor(name, projects = [], parentContainer) {
         this.name = name;
         this.projects = projects;
-        this.parentContainer = parentContainer;
+        this.parentObject = parentContainer;
     }
 
     getName() {

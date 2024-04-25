@@ -10,7 +10,7 @@ export default class Storage {
     //If localStorage is blank, load from userStorage file?
     constructor() {
         /* const jsonText = JSON.parse(JSON.stringify(storageFile)); */
-        const jsonText = JSON.parse(JSON.stringify(this.getFromLocalStorage()));
+        const jsonText = this.getFromLocalStorage();
         console.log(jsonText);
         this.userList = this.parseUsers(jsonText);
     }
@@ -100,10 +100,14 @@ export default class Storage {
     //Should return JSON object retrieved from localStorage?
     getFromLocalStorage() {
         const storedUsers = localStorage.getItem("userStorage");
-        if (storedUsers != null) {
+        /* if (storedUsers !== null) {
+            return storageFile;
+        } */
+        if (!localStorage.getItem("userStorage")) {
             return storageFile;
         }
-        return JSON.parse(storedUsers);
+        /* return JSON.parse(storedUsers); */
+        return storedUsers;
     }
 
     parseAllToJSON(userToStore) {
@@ -111,6 +115,18 @@ export default class Storage {
         JSONUserArray.push(userToStore.parseToJSON());
         console.log(JSONUserArray);
         return JSONUserArray;
+    }
+
+    simpleSendToStorage(userToStore) {
+        const toSendToStorage = JSON.stringify(
+            userToStore,
+            function replacer(key, value) {
+                return key === "parentObject" ? undefined : value;
+            }
+        );
+        console.log(toSendToStorage);
+        console.log(JSON.parse(toSendToStorage));
+        localStorage.setItem("userStorage", toSendToStorage);
     }
 
     //TODO: Should there be a method to nuke localstorage of all saved data?
