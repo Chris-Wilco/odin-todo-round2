@@ -45,7 +45,7 @@ export default class User {
         );
     }
 
-    parseToJSON() {
+    /* parseToJSON() {
         const JSONProjectArray = [];
         this.projects.forEach((project) => {
             JSONProjectArray.push(project.parseToJSON());
@@ -55,5 +55,5 @@ export default class User {
         let tempString = "" + userJSON;
 
         return tempString;
-    }
+    } */
 }

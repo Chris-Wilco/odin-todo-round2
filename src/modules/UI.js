@@ -368,7 +368,8 @@ export default class UI {
             checkboxContainer
         );
         checkbox.type = "checkbox";
-        if (task.checked) {
+        console.log(`Task name? ${task.name} Task checked? ${task.checked}`);
+        if (task.checked == true) {
             checkbox.checked = true;
         }
         checkbox.addEventListener("click", () => {

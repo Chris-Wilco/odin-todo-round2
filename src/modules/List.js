@@ -68,7 +68,7 @@ export default class List {
         //Should this property just be initialized as a blank somehow when this object is created?
     }
 
-    parseToJSON() {
+    /* parseToJSON() {
         //Take task list and turn it into an array of tasks in JSON format
         const JSONTaskArray = [];
         this.tasks.forEach((task) => {
@@ -79,5 +79,5 @@ export default class List {
         return listJSON;
 
         //Eventually return this list object as a JSON object
-    }
+    } */
 }

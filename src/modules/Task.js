@@ -3,13 +3,14 @@ export default class Task {
         name,
         dueDate = "No due date set.",
         description = "No description set yet.",
-        parentList
+        parentList,
+        checked = false
     ) {
         this.name = name;
         this.dueDate = dueDate;
         this.description = description;
         this.parentObject = parentList;
-        this.checked = false;
+        this.checked = checked;
     }
 
     getName() {
@@ -48,9 +49,9 @@ export default class Task {
         //Should this property just be initialized as a blank somehow when this object is created?
     }
 
-    parseToJSON() {
+    /* parseToJSON() {
         const taskJSON = `{"name": "${this.name}", "dueDate": "${this.dueDate}",
 "description": "${this.description}"}`;
         return taskJSON;
-    }
+    } */
 }

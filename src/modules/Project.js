@@ -64,7 +64,7 @@ export default class Project {
         //Should this property just be initialized as a blank somehow when this object is created?
     }
 
-    parseToJSON() {
+    /* parseToJSON() {
         const JSONListArray = [];
         this.lists.forEach((list) => {
             JSONListArray.push(list.parseToJSON());
@@ -72,5 +72,5 @@ export default class Project {
 
         const projectJSON = `{"name": "${this.name}", "lists": ${JSONListArray}}`;
         return projectJSON;
-    }
+    } */
 }

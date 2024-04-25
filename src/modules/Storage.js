@@ -10,8 +10,10 @@ export default class Storage {
     //If localStorage is blank, load from userStorage file?
     constructor() {
         /* const jsonText = JSON.parse(JSON.stringify(storageFile)); */
-        const jsonText = this.getFromLocalStorage();
+        const jsonText = JSON.parse(this.getFromLocalStorage());
         console.log(jsonText);
+        console.log(typeof jsonText);
+        //console.log("blingoooo!");
         this.userList = this.parseUsers(jsonText);
     }
 
@@ -79,11 +81,14 @@ export default class Storage {
             const taskName = task.name;
             const taskDescription = task.description;
             const taskDueDate = task.dueDate;
+            const taskChecked = task.checked;
+
             const newTask = new Task(
                 taskName,
                 taskDueDate,
                 taskDescription,
-                parentList
+                parentList,
+                taskChecked
             );
             tasks.push(newTask);
         });
@@ -91,11 +96,11 @@ export default class Storage {
     }
 
     //TODO: method to store js user object as a json object via stringify (?)
-    sendToLocalStorage(userToStore) {
+    /* sendToLocalStorage(userToStore) {
         const allOfTheJSON = this.parseAllToJSON(userToStore);
 
         localStorage.setItem("userStorage", allOfTheJSON);
-    }
+    } */
 
     //Should return JSON object retrieved from localStorage?
     getFromLocalStorage() {
@@ -104,29 +109,36 @@ export default class Storage {
             return storageFile;
         } */
         if (!localStorage.getItem("userStorage")) {
+            console.log("blipo!");
             return storageFile;
         }
         /* return JSON.parse(storedUsers); */
         return storedUsers;
     }
 
-    parseAllToJSON(userToStore) {
+    /* parseAllToJSON(userToStore) {
         const JSONUserArray = [];
         JSONUserArray.push(userToStore.parseToJSON());
         console.log(JSONUserArray);
         return JSONUserArray;
-    }
+    } */
 
     simpleSendToStorage(userToStore) {
+        const thatsNotAnArrayThisIsAnArray = [];
+        thatsNotAnArrayThisIsAnArray.push(userToStore);
         const toSendToStorage = JSON.stringify(
-            userToStore,
+            thatsNotAnArrayThisIsAnArray,
             function replacer(key, value) {
                 return key === "parentObject" ? undefined : value;
             }
         );
+        /* const arrayToStorage = [];
+        arrayToStorage.push(toSendToStorage); */
+
         console.log(toSendToStorage);
         console.log(JSON.parse(toSendToStorage));
         localStorage.setItem("userStorage", toSendToStorage);
+        /* localStorage.setItem("userStorage", arrayToStorage); */
     }
 
     //TODO: Should there be a method to nuke localstorage of all saved data?
