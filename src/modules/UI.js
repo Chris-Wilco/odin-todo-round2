@@ -7,12 +7,16 @@ import User from "./User.js";
 
 export default class UI {
     //Initialize page body, nav container, and content container page elements to be later populated
-    constructor() {
+    constructor(thisUser, thisStorage) {
         /* const newStorage = new Storage(); */
-        this.newStorage = new Storage();
-        this.userList = this.newStorage.getUsers();
+        /* this.newStorage = new Storage();
+        this.userList = this.newStorage.getUsers(); */
 
-        this.user = this.userList[0];
+        //Refactor this to take in a single user and generate UI
+        this.newStorage = thisStorage;
+        this.user = thisUser;
+
+        /* this.user = this.userList[0]; */
         //console.log(this.user);
         this.pageBody = document.querySelector("body");
         this.navContainer = GenerateElement.generatePageElement(
@@ -29,7 +33,12 @@ export default class UI {
         );
         this.pageBody.appendChild(this.contentContainer);
 
-        this.loadPageContent(this.user.projects[0].name);
+        if (this.user.projects.length !== 0) {
+            this.loadPageContent(this.user.projects[0].name);
+        } else {
+            this.loadPageContent();
+        }
+        /* this.loadPageContent(this.user.name); */
     }
 
     //Clears and populates nav and display panes

@@ -1,5 +1,5 @@
 export default class User {
-    constructor(name, projects = [], parentContainer) {
+    constructor(name, projects = [], parentContainer = null) {
         this.name = name;
         this.projects = projects;
         this.parentObject = parentContainer;

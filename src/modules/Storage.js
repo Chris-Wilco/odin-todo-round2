@@ -7,10 +7,14 @@ import User from "./User.js";
 
 export default class Storage {
     constructor() {
-        const jsonText = this.getFromLocalStorage();
+        const jsonTextOfStoredUserArray = this.getFromLocalStorage();
+        /* console.log(`jsonTextOfStoredUserArray: ${jsonTextOfStoredUserArray}`);
+        console.log(typeof jsonTextOfStoredUserArray);
+        console.log(jsonTextOfStoredUserArray); */
         /* console.log(jsonText);
         console.log(typeof jsonText); */
-        this.userList = this.parseUsers(jsonText);
+        this.userList = this.parseUsers(jsonTextOfStoredUserArray);
+        console.log(this.userList);
     }
 
     getUsers() {
@@ -19,12 +23,12 @@ export default class Storage {
 
     //TODO: Do we need a user container object to then be able to commit back into the json file?
 
-    parseUsers(jsonText) {
+    parseUsers(jsonTextOfStoredUserArray) {
         const users = [];
 
-        jsonText.forEach((user) => {
+        jsonTextOfStoredUserArray.forEach((user) => {
             const userName = user.name;
-            const newUser = new User(userName, [], jsonText);
+            const newUser = new User(userName, [], jsonTextOfStoredUserArray);
             const userProjects = this.parseProjects(user.projects, newUser);
             newUser.setProjects(userProjects);
             users.push(newUser);
@@ -103,17 +107,77 @@ export default class Storage {
     }
 
     simpleSendToStorage(userToStore) {
-        const thatsNotAnArrayThisIsAnArray = [];
+        /* const thatsNotAnArrayThisIsAnArray = [];
         thatsNotAnArrayThisIsAnArray.push(userToStore);
         const toSendToStorage = JSON.stringify(
             thatsNotAnArrayThisIsAnArray,
             function replacer(key, value) {
                 return key === "parentObject" ? undefined : value;
             }
+        ); */
+
+        /* this.userList.push(userToStore); */
+        /* const toSendToStorage = JSON.stringify(
+            this.userList,
+            function replacer(key, value) {
+                return key === "parentObject" ? undefined : value;
+            }
+        ); */
+
+        /* console.log(toSendToStorage);
+        console.log(JSON.parse(toSendToStorage)); */
+
+        /* localStorage.setItem("userStorage", toSendToStorage); */
+        console.log(`this is a list of users before adding:`);
+        console.log(this.userList);
+
+        console.log(`this is the user: ${userToStore}`);
+        console.log(userToStore);
+
+        /* if (this.doesUserAlreadyExist(userToStore)) {
+            const target = this.userList.find((user) => {
+                user.name === userToStore.name;
+            });
+            Object.assign(target, userToStore);
+            console.log("boink!");
+        } else {
+            this.userList.push(userToStore);
+            console.log("baaaaank!");
+        } */
+
+        if (this.doesUserAlreadyExist(userToStore)) {
+            const target = this.userList.find(
+                (user) => user.name === userToStore.name
+            );
+            Object.assign(target, userToStore);
+            console.log("boink!");
+        } else {
+            this.userList.push(userToStore);
+            console.log("baaaaank!");
+        }
+
+        console.log(`this is a list of users before storing:`);
+        console.log(this.userList);
+
+        this.storeUserArray();
+    }
+
+    doesUserAlreadyExist(userToCheck) {
+        const containsUser = this.userList.some(
+            (user) => user.name === userToCheck.name
+        );
+        console.log(`Contains User? : ${containsUser}`);
+        return containsUser;
+    }
+
+    storeUserArray() {
+        const toSendToStorage = JSON.stringify(
+            this.userList,
+            function replacer(key, value) {
+                return key === "parentObject" ? undefined : value;
+            }
         );
 
-        console.log(toSendToStorage);
-        console.log(JSON.parse(toSendToStorage));
         localStorage.setItem("userStorage", toSendToStorage);
     }
 
