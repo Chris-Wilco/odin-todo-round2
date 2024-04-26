@@ -96,9 +96,6 @@ export default class LoginUI {
 
         //Save the Storage array of users to localStorage to maintain state on page reload
 
-        /* console.log(`new user named: ${newUser.name}`);
-        console.log(`new user parent: ${newUser.parentObject}`); */
-
         //make sure user parent container is object
         //Do I need to save this new object immediately?
         //Do i need to alter the save function to include all objects

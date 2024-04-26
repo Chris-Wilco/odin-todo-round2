@@ -107,44 +107,6 @@ export default class Storage {
     }
 
     simpleSendToStorage(userToStore) {
-        /* const thatsNotAnArrayThisIsAnArray = [];
-        thatsNotAnArrayThisIsAnArray.push(userToStore);
-        const toSendToStorage = JSON.stringify(
-            thatsNotAnArrayThisIsAnArray,
-            function replacer(key, value) {
-                return key === "parentObject" ? undefined : value;
-            }
-        ); */
-
-        /* this.userList.push(userToStore); */
-        /* const toSendToStorage = JSON.stringify(
-            this.userList,
-            function replacer(key, value) {
-                return key === "parentObject" ? undefined : value;
-            }
-        ); */
-
-        /* console.log(toSendToStorage);
-        console.log(JSON.parse(toSendToStorage)); */
-
-        /* localStorage.setItem("userStorage", toSendToStorage); */
-        console.log(`this is a list of users before adding:`);
-        console.log(this.userList);
-
-        console.log(`this is the user: ${userToStore}`);
-        console.log(userToStore);
-
-        /* if (this.doesUserAlreadyExist(userToStore)) {
-            const target = this.userList.find((user) => {
-                user.name === userToStore.name;
-            });
-            Object.assign(target, userToStore);
-            console.log("boink!");
-        } else {
-            this.userList.push(userToStore);
-            console.log("baaaaank!");
-        } */
-
         if (this.doesUserAlreadyExist(userToStore)) {
             const target = this.userList.find(
                 (user) => user.name === userToStore.name
