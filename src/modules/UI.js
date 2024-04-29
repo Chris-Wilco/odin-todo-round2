@@ -66,10 +66,22 @@ export default class UI {
     }
 
     fillNavContent() {
+        const navInfoContainer = GenerateElement.generatePageElement(
+            "div",
+            ["nav-info-container"],
+            this.navContainer
+        );
+
         const navTitleContainer = GenerateElement.generatePageElement(
             "div",
             ["nav-title-container"],
-            this.navContainer
+            navInfoContainer
+        );
+
+        const navControlContainer = GenerateElement.generatePageElement(
+            "div",
+            ["nav-control-container"],
+            navInfoContainer
         );
 
         const navTitle = GenerateElement.generatePageElement(
@@ -81,8 +93,9 @@ export default class UI {
 
         const addNewProjectButton = GenerateElement.generatePageElement(
             "div",
-            ["new-project-button"],
-            navTitleContainer
+            ["nav-new-project-button", "button"],
+            navControlContainer,
+            "add project"
         );
         addNewProjectButton.addEventListener("click", () => {
             this.createNewProject();
@@ -91,14 +104,21 @@ export default class UI {
 
         const saveButton = GenerateElement.generatePageElement(
             "div",
-            ["nav-save-users-button"],
-            navTitleContainer,
+            ["nav-save-users-button", "button"],
+            navControlContainer,
             "save all"
         );
         saveButton.addEventListener("click", () => {
             console.log("blamo!");
             this.newStorage.simpleSendToStorage(this.user);
         });
+
+        const exitToLoginButton = GenerateElement.generatePageElement(
+            "div",
+            ["nav-exit-button", "button"],
+            navControlContainer,
+            "exit"
+        );
 
         const navContentContainer = GenerateElement.generatePageElement(
             "div",
@@ -138,7 +158,7 @@ export default class UI {
 
         const projectTitle = GenerateElement.generatePageElement(
             "div",
-            ["nav-project-title"],
+            ["nav-project-title", "button"],
             projectTitleContainer,
             project.name
         );
@@ -240,7 +260,7 @@ export default class UI {
 
         const createNewListButton = GenerateElement.generatePageElement(
             "div",
-            ["new-project-list-button"],
+            ["new-project-list-button", "button"],
             projectControlContainer,
             "new list"
         );
@@ -252,7 +272,7 @@ export default class UI {
 
         const closeProjectButton = GenerateElement.generatePageElement(
             "div",
-            ["close-project-button"],
+            ["close-project-button", "button"],
             projectControlContainer,
             "close project"
         );
@@ -262,7 +282,7 @@ export default class UI {
 
         const deleteProjectButton = GenerateElement.generatePageElement(
             "div",
-            ["item-remove-button"],
+            ["item-remove-button", "button"],
             projectControlContainer,
             "delete project"
         );
@@ -270,6 +290,17 @@ export default class UI {
             project.parentObject.removeProject(project.name);
             this.loadPageContent();
             //TODO: this also needs to update the json file of record to save page state on reload
+        });
+
+        const editProjectButton = GenerateElement.generatePageElement(
+            "div",
+            ["project-edit-button", "button"],
+            projectControlContainer,
+            "edit project"
+        );
+        editProjectButton.addEventListener("click", () => {
+            this.editProject(project);
+            this.updateProjectVisual(project);
         });
 
         this.appendAllListsToProject(projectCardContainer, project.lists);
@@ -306,6 +337,18 @@ export default class UI {
             listTitleContainer
         );
 
+        const listControlContainer = GenerateElement.generatePageElement(
+            "div",
+            ["list-control-container"],
+            listTitleContainer
+        );
+
+        const listCardContainer = GenerateElement.generatePageElement(
+            "div",
+            ["list-card-container"],
+            listContainer
+        );
+
         const listName = GenerateElement.generatePageElement(
             "div",
             ["list-title"],
@@ -322,8 +365,9 @@ export default class UI {
 
         const addNewTaskButton = GenerateElement.generatePageElement(
             "div",
-            ["new-list-item-button"],
-            listTitleContainer
+            ["new-list-item-button", "button"],
+            listControlContainer,
+            "new task"
         );
         addNewTaskButton.addEventListener("click", () => {
             const newTask = this.createTask(list);
@@ -332,8 +376,8 @@ export default class UI {
 
         const removeListButton = GenerateElement.generatePageElement(
             "div",
-            ["item-remove-button"],
-            listContainer,
+            ["item-remove-button", "button"],
+            listControlContainer,
             "delete list"
         );
         removeListButton.addEventListener("click", () => {
@@ -342,6 +386,17 @@ export default class UI {
             this.reloadNavContent();
 
             //TODO: this also needs to update the json file of record to save page state on reload
+        });
+
+        const editListButton = GenerateElement.generatePageElement(
+            "div",
+            ["list-edit-button", "button"],
+            listControlContainer,
+            "edit list"
+        );
+        editListButton.addEventListener("click", () => {
+            this.editList(list);
+            this.updateListVisual(list);
         });
 
         this.appendTaskList(listContainer, list);
@@ -424,7 +479,7 @@ export default class UI {
 
         const removeTaskButton = GenerateElement.generatePageElement(
             "div",
-            ["item-remove-button"],
+            ["item-remove-button", "button"],
             taskControlsContainer,
             "remove item"
         );
@@ -436,7 +491,7 @@ export default class UI {
 
         const editTaskButton = GenerateElement.generatePageElement(
             "div",
-            ["item-edit-button"],
+            ["item-edit-button", "button"],
             taskControlsContainer,
             "edit item"
         );
@@ -495,11 +550,11 @@ export default class UI {
     }
 
     editList(list) {
-        const listName = prompt("List name?");
-        const listDescription = prompt("List description?");
+        const listName = prompt("List name?", list.name);
+        const listDescription = prompt("List description?", list.description);
 
-        list.setName = listName;
-        list.setDescription = listDescription;
+        list.name = listName;
+        list.description = listDescription;
     }
 
     updateListVisual(list) {
@@ -512,8 +567,11 @@ export default class UI {
     }
 
     editProject(project) {
-        const projectName = prompt("Project name?");
-        const projectDescription = prompt("Project description?");
+        const projectName = prompt("Project name?", project.name);
+        const projectDescription = prompt(
+            "Project description?",
+            project.description
+        );
 
         project.name = projectName;
         project.description = projectDescription;

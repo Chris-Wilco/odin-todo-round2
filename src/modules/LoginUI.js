@@ -20,16 +20,36 @@ export default class LoginUI {
             this.loginPageBody
         );
 
+        this.loginControlContainer = GenerateElement.generatePageElement(
+            "div",
+            ["login-control-container"],
+            this.loginContainer
+        );
+
         this.newUserButton = GenerateElement.generatePageElement(
             "div",
-            ["new-user-button"],
-            this.loginContainer,
-            "Create new User"
+            ["new-user-button", "button"],
+            this.loginControlContainer,
+            "new user"
         );
         this.newUserButton.addEventListener("click", () => {
             //just gonna add it to the list of potential users for now
             this.createNewUser();
         });
+
+        this.saveUsersButton = GenerateElement.generatePageElement(
+            "div",
+            ["new-user-button", "button"],
+            this.loginControlContainer,
+            "save users"
+        );
+
+        this.clearUsersButton = GenerateElement.generatePageElement(
+            "div",
+            ["new-user-button", "button"],
+            this.loginControlContainer,
+            "clear users"
+        );
 
         this.userListContainer = GenerateElement.generatePageElement(
             "div",
@@ -61,7 +81,7 @@ export default class LoginUI {
     createNewUserDiv(user) {
         const userDiv = GenerateElement.generatePageElement(
             "div",
-            ["user-name-option"],
+            ["user-name-option", "button"],
             null,
             user.name
         );
