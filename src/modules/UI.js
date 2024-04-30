@@ -121,7 +121,7 @@ export default class UI {
             "exit"
         );
         exitToLoginButton.addEventListener("click", () => {
-            LoginUI.refreshLoginPage();
+            this.user.parentObject.refreshLoginPage();
         });
 
         const navContentContainer = GenerateElement.generatePageElement(

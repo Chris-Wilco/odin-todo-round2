@@ -47,6 +47,7 @@ export default class LoginUI {
 
     createNewUI(user) {
         this.clearPageBody();
+        user.parentObject = this;
         const newPage = new UI(user, this.newStorage);
     }
 
