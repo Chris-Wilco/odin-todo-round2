@@ -49,7 +49,6 @@ export default class LoginUI {
             "new user"
         );
         this.newUserButton.addEventListener("click", () => {
-            //just gonna add it to the list of potential users for now
             this.createNewUser();
         });
 
@@ -59,7 +58,6 @@ export default class LoginUI {
             loginControlContainer,
             "save users"
         );
-        //TODO: this actually needs to save all the users
         this.saveUsersButton.addEventListener("click", () => {
             this.newStorage.storeUserArray();
         });
@@ -70,6 +68,12 @@ export default class LoginUI {
             loginControlContainer,
             "clear users"
         );
+        this.clearUsersButton.addEventListener("click", () => {
+            this.newStorage.deleteUserArray();
+            this.newStorage.refreshUserArray();
+            this.userList = this.newStorage.userList;
+            this.refreshLoginPage();
+        });
     }
 
     createUserListDiv() {
@@ -97,14 +101,11 @@ export default class LoginUI {
         userDiv.addEventListener("click", () => {
             this.createNewUI(user);
         });
-
         return userDiv;
     }
 
     createNewUI(user) {
         this.clearPageBody();
-        //Don't think I need to assign this LoginUI as the parent object of the user...
-        /* user.parentObject = this; */
         const newPage = new UI(user, this.newStorage, this);
     }
 
@@ -116,41 +117,20 @@ export default class LoginUI {
         const newUserName = prompt("New User name?");
         const newUser = new User(newUserName, [], this.userList);
 
-        //Add it as an actual child of the Storage user array
-        /* this.newStorage.simpleSendToStorage(newUser);
-        console.log(`${this.newStorage.getUsers()}`); */
-
-        //Just check to see if user already exists
         if (!this.newStorage.doesUserAlreadyExist(newUser)) {
             this.userList.push(newUser);
             this.newStorage.storeUserArray();
 
-            console.log(`Original user list:`);
+            console.log(`Original (stored) user list:`);
             console.log(this.newStorage.storedUserList);
             console.log(`Current user list:`);
             console.log(this.newStorage.userList);
         }
-
         this.reloadUserList();
-
-        //Save the Storage array of users to localStorage to maintain state on page reload
-
-        //make sure user parent container is object
-        //Do I need to save this new object immediately?
-        //Do i need to alter the save function to include all objects
-
-        //Should this also open the main UI with new user and no projects, etc?
     }
 
     refreshLoginPage() {
         this.clearPageBody();
-
-        console.log(`this.usersList for the LoginUI object:`);
-        console.log(this.userList);
-        console.log(`this.usersList for this.newStorage:`);
-        console.log(this.newStorage.userList);
-
-        //Now regenerate page body elements separately from the constructor....
         this.generateLoginPage();
     }
 }

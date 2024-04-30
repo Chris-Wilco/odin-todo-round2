@@ -9,17 +9,10 @@ import LoginUI from "./LoginUI.js";
 export default class UI {
     //Initialize page body, nav container, and content container page elements to be later populated
     constructor(thisUser, thisStorage, thisLoginUI) {
-        /* const newStorage = new Storage(); */
-        /* this.newStorage = new Storage();
-        this.userList = this.newStorage.getUsers(); */
-
-        //Refactor this to take in a single user and generate UI
         this.newStorage = thisStorage;
         this.user = thisUser;
         this.loginUI = thisLoginUI;
 
-        /* this.user = this.userList[0]; */
-        //console.log(this.user);
         this.pageBody = document.querySelector("body");
         this.navContainer = GenerateElement.generatePageElement(
             "div",
@@ -83,6 +76,12 @@ export default class UI {
         const navControlContainer = GenerateElement.generatePageElement(
             "div",
             ["nav-control-container"],
+            /* navInfoContainer */ null
+        );
+
+        const projectDropdownContainer = GenerateElement.createDropdown(
+            "options",
+            navControlContainer,
             navInfoContainer
         );
 
@@ -108,11 +107,10 @@ export default class UI {
             "div",
             ["nav-save-users-button", "button"],
             navControlContainer,
-            "save all"
+            "save"
         );
         saveButton.addEventListener("click", () => {
-            console.log("blamo!");
-            this.newStorage.simpleSendToStorage(this.user);
+            this.newStorage.overwriteSavedUser(this.user);
         });
 
         const exitToLoginButton = GenerateElement.generatePageElement(
@@ -122,7 +120,6 @@ export default class UI {
             "exit"
         );
         exitToLoginButton.addEventListener("click", () => {
-            /* this.user.parentObject.refreshLoginPage(); */
             this.loginUI.refreshLoginPage();
         });
 
@@ -183,8 +180,6 @@ export default class UI {
             projectContentContainer.appendChild(this.createListNavVisual(list));
         });
 
-        /* project.setContainerNode(projectContainer); */
-
         return projectContainer;
     }
 
@@ -241,6 +236,12 @@ export default class UI {
         const projectControlContainer = GenerateElement.generatePageElement(
             "div",
             ["project-control-container"],
+            /* projectTitleContainer */ null
+        );
+
+        const projectDropdownContainer = GenerateElement.createDropdown(
+            "options",
+            projectControlContainer,
             projectTitleContainer
         );
 
@@ -295,7 +296,6 @@ export default class UI {
         deleteProjectButton.addEventListener("click", () => {
             project.parentObject.removeProject(project.name);
             this.loadPageContent();
-            //TODO: this also needs to update the json file of record to save page state on reload
         });
 
         const editProjectButton = GenerateElement.generatePageElement(
@@ -312,8 +312,6 @@ export default class UI {
         this.appendAllListsToProject(projectCardContainer, project.lists);
 
         project.setContainerNode(projectContainer);
-
-        /* this.contentContainer.appendChild(projectContainer); */
     }
 
     appendAllListsToProject(projectContainer, lists) {
@@ -346,6 +344,12 @@ export default class UI {
         const listControlContainer = GenerateElement.generatePageElement(
             "div",
             ["list-control-container"],
+            /* listTitleContainer */ null
+        );
+
+        const projectDropdownContainer = GenerateElement.createDropdown(
+            "options",
+            listControlContainer,
             listTitleContainer
         );
 
@@ -390,8 +394,6 @@ export default class UI {
             list.parentObject.removeList(list.name);
             this.updateProjectVisual(list.parentObject);
             this.reloadNavContent();
-
-            //TODO: this also needs to update the json file of record to save page state on reload
         });
 
         const editListButton = GenerateElement.generatePageElement(
@@ -407,7 +409,6 @@ export default class UI {
 
         this.appendTaskList(listContainer, list);
         list.setContainerNode(listContainer);
-        //Does this (need to return?) list container
         return listContainer;
     }
 
@@ -425,7 +426,6 @@ export default class UI {
         listContainer.appendChild(taskContainer);
     }
 
-    //Checkbox needs to save state between loads
     createTaskVisual(task, taskContainer) {
         const checkboxContainer = GenerateElement.generatePageElement(
             "div",
@@ -438,7 +438,6 @@ export default class UI {
             checkboxContainer
         );
         checkbox.type = "checkbox";
-        /* console.log(`Task name? ${task.name} Task checked? ${task.checked}`); */
         if (task.checked == true) {
             checkbox.checked = true;
         }
@@ -492,7 +491,6 @@ export default class UI {
         removeTaskButton.addEventListener("click", () => {
             task.parentObject.removeTask(task.name);
             this.updateListVisual(task.parentObject);
-            //TODO: this also needs to update the json file of record to save page state on reload
         });
 
         const editTaskButton = GenerateElement.generatePageElement(
@@ -521,7 +519,6 @@ export default class UI {
             taskDueDate,
             parentList
         );
-
         parentList.addTask(newTask);
     }
 

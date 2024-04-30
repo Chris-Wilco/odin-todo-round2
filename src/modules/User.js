@@ -3,8 +3,6 @@ export default class User {
         this.name = name;
         this.projects = projects;
         this.parentObject = parentContainer;
-        //Should the parent container (the array of users) be the parent object for a user?
-        //Or should it be considered the LoginUI? Probably not...
     }
 
     getName() {

@@ -7,10 +7,7 @@ import User from "./User.js";
 
 export default class Storage {
     constructor() {
-        const jsonTextOfStoredUserArray = this.getFromLocalStorage();
-
-        this.storedUserList = this.parseUsers(jsonTextOfStoredUserArray);
-        this.userList = this.parseUsers(jsonTextOfStoredUserArray);
+        this.refreshUserArray();
         console.log(this.userList);
     }
 
@@ -18,7 +15,12 @@ export default class Storage {
         return this.userList;
     }
 
-    //TODO: Do we need a user container object to then be able to commit back into the json file?
+    refreshUserArray() {
+        const jsonTextOfStoredUserArray = this.getFromLocalStorage();
+
+        this.storedUserList = this.parseUsers(jsonTextOfStoredUserArray);
+        this.userList = this.parseUsers(jsonTextOfStoredUserArray);
+    }
 
     parseUsers(jsonTextOfStoredUserArray) {
         const users = [];
@@ -33,8 +35,6 @@ export default class Storage {
 
         return users;
     }
-
-    //Create parent user first and *then* generate the list of projects once the user object already exists?
 
     parseProjects(jsonProjects, parentUser) {
         const projects = [];
@@ -97,29 +97,25 @@ export default class Storage {
         const storedUsers = localStorage.getItem("userStorage");
 
         if (!localStorage.getItem("userStorage")) {
-            console.log("blipo!");
+            console.log("No users stored in localStorage.");
+            console.log("Retrieving user list from userStorage.json.");
             return storageFile;
         }
         return JSON.parse(storedUsers);
     }
 
     //TODO: Is this useless?
-    //I think it is. It adds the new user even if the user already exists so when checking with a new blank "user 1", this overwrites the already existing "user 1"
-    simpleSendToStorage(userToStore) {
+    //Not for *every* case, I don't think. When we're saving a user that already exists, it makes sense to check against existing users and then overwrite the pre-existing one so that we don't duplicated every time we save.
+    //I think it is for the case of creating a brand new user from the login screen though. It adds the new user even if the user already exists so when checking with a new blank "user 1", this overwrites the already existing "user 1".
+    overwriteSavedUser(userToStore) {
         if (this.doesUserAlreadyExist(userToStore)) {
             const target = this.userList.find(
                 (user) => user.name === userToStore.name
             );
             Object.assign(target, userToStore);
-            console.log("boink!");
         } else {
             this.userList.push(userToStore);
-            console.log("baaaaank!");
         }
-
-        console.log(`this is a list of users before storing:`);
-        console.log(this.userList);
-
         this.storeUserArray();
     }
 
@@ -142,8 +138,7 @@ export default class Storage {
         localStorage.setItem("userStorage", toSendToStorage);
     }
 
-    //TODO: Should there be a method to nuke localstorage of all saved data?
-    //Probably...
-
-    /* saveAllUsers() {} */
+    deleteUserArray() {
+        localStorage.removeItem("userStorage");
+    }
 }
