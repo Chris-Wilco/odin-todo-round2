@@ -9,55 +9,8 @@ export default class LoginUI {
         this.userList = this.newStorage.getUsers();
 
         this.pageBody = document.querySelector("body");
-        this.loginPageBody = GenerateElement.generatePageElement(
-            "div",
-            ["login-page-body"],
-            this.pageBody
-        );
-        this.loginContainer = GenerateElement.generatePageElement(
-            "div",
-            ["login-container"],
-            this.loginPageBody
-        );
 
-        this.loginControlContainer = GenerateElement.generatePageElement(
-            "div",
-            ["login-control-container"],
-            this.loginContainer
-        );
-
-        this.newUserButton = GenerateElement.generatePageElement(
-            "div",
-            ["new-user-button", "button"],
-            this.loginControlContainer,
-            "new user"
-        );
-        this.newUserButton.addEventListener("click", () => {
-            //just gonna add it to the list of potential users for now
-            this.createNewUser();
-        });
-
-        this.saveUsersButton = GenerateElement.generatePageElement(
-            "div",
-            ["new-user-button", "button"],
-            this.loginControlContainer,
-            "save users"
-        );
-
-        this.clearUsersButton = GenerateElement.generatePageElement(
-            "div",
-            ["new-user-button", "button"],
-            this.loginControlContainer,
-            "clear users"
-        );
-
-        this.userListContainer = GenerateElement.generatePageElement(
-            "div",
-            ["user-list-container"],
-            this.loginContainer
-        );
-
-        this.createUserListDiv();
+        this.generateLoginPage();
     }
 
     //TODO: Get and return array of users from localStorage
@@ -121,5 +74,69 @@ export default class LoginUI {
         //Do i need to alter the save function to include all objects
 
         //Should this also open the main UI with new user and no projects, etc?
+    }
+
+    generateLoginControls(loginControlContainer) {
+        this.newUserButton = GenerateElement.generatePageElement(
+            "div",
+            ["new-user-button", "button"],
+            loginControlContainer,
+            "new user"
+        );
+        this.newUserButton.addEventListener("click", () => {
+            //just gonna add it to the list of potential users for now
+            this.createNewUser();
+        });
+
+        this.saveUsersButton = GenerateElement.generatePageElement(
+            "div",
+            ["new-user-button", "button"],
+            loginControlContainer,
+            "save users"
+        );
+
+        this.clearUsersButton = GenerateElement.generatePageElement(
+            "div",
+            ["new-user-button", "button"],
+            loginControlContainer,
+            "clear users"
+        );
+    }
+
+    generateLoginPage() {
+        this.loginPageBody = GenerateElement.generatePageElement(
+            "div",
+            ["login-page-body"],
+            this.pageBody
+        );
+
+        this.loginContainer = GenerateElement.generatePageElement(
+            "div",
+            ["login-container"],
+            this.loginPageBody
+        );
+
+        this.loginControlContainer = GenerateElement.generatePageElement(
+            "div",
+            ["login-control-container"],
+            this.loginContainer
+        );
+
+        this.generateLoginControls(this.loginControlContainer);
+
+        this.userListContainer = GenerateElement.generatePageElement(
+            "div",
+            ["user-list-container"],
+            this.loginContainer
+        );
+
+        this.createUserListDiv();
+    }
+
+    refreshLoginPage() {
+        this.clearPageBody();
+
+        //Now regenerate page body elements separately from the constructor....
+        this.generateLoginPage();
     }
 }

@@ -4,6 +4,7 @@ import Task from "./Task.js";
 import List from "./List.js";
 import Project from "./Project.js";
 import User from "./User.js";
+import LoginUI from "./LoginUI.js";
 
 export default class UI {
     //Initialize page body, nav container, and content container page elements to be later populated
@@ -119,6 +120,9 @@ export default class UI {
             navControlContainer,
             "exit"
         );
+        exitToLoginButton.addEventListener("click", () => {
+            LoginUI.refreshLoginPage();
+        });
 
         const navContentContainer = GenerateElement.generatePageElement(
             "div",
