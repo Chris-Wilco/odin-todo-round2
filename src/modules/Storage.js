@@ -106,6 +106,8 @@ export default class Storage {
         return JSON.parse(storedUsers);
     }
 
+    //TODO: Is this useless?
+    //I think it is. It adds the new user even if the user already exists so when checking with a new blank "user 1", this overwrites the already existing "user 1"
     simpleSendToStorage(userToStore) {
         if (this.doesUserAlreadyExist(userToStore)) {
             const target = this.userList.find(
@@ -128,7 +130,7 @@ export default class Storage {
         const containsUser = this.userList.some(
             (user) => user.name === userToCheck.name
         );
-        console.log(`Contains User? : ${containsUser}`);
+        console.log(`Contains User ${userToCheck}? : ${containsUser}`);
         return containsUser;
     }
 
@@ -145,5 +147,5 @@ export default class Storage {
 
     //TODO: Should there be a method to nuke localstorage of all saved data?
     //Probably...
-    saveAllUsers() {}
+    /* saveAllUsers() {} */
 }

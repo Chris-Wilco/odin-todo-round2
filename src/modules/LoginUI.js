@@ -8,6 +8,8 @@ export default class LoginUI {
         this.newStorage = new Storage();
         this.userList = this.newStorage.getUsers();
 
+        //Gonna try using a deep copy of the initial users array created by the storage
+
         this.pageBody = document.querySelector("body");
 
         this.generateLoginPage();
@@ -62,7 +64,9 @@ export default class LoginUI {
             "save users"
         );
         //TODO: this actually needs to save all the users
-        this.saveUsersButton.addEventListener("click", () => {});
+        this.saveUsersButton.addEventListener("click", () => {
+            this.newStorage.storeUserArray();
+        });
 
         this.clearUsersButton = GenerateElement.generatePageElement(
             "div",
@@ -113,12 +117,17 @@ export default class LoginUI {
 
     createNewUser() {
         const newUserName = prompt("New User name?");
-
         const newUser = new User(newUserName, [], this.userList);
 
         //Add it as an actual child of the Storage user array
-        this.newStorage.simpleSendToStorage(newUser);
-        console.log(`${this.newStorage.getUsers()}`);
+        /* this.newStorage.simpleSendToStorage(newUser);
+        console.log(`${this.newStorage.getUsers()}`); */
+
+        //Just check to see if user already exists
+        if (!this.newStorage.doesUserAlreadyExist(newUser)) {
+            this.userList.push(newUser);
+            this.newStorage.storeUserArray();
+        }
 
         this.reloadUserList();
 
