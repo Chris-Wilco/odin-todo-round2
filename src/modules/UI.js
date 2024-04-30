@@ -33,7 +33,6 @@ export default class UI {
         } else {
             this.loadPageContent();
         }
-        /* this.loadPageContent(this.user.name); */
     }
 
     //Clears and populates nav and display panes
@@ -76,7 +75,7 @@ export default class UI {
         const navControlContainer = GenerateElement.generatePageElement(
             "div",
             ["nav-control-container"],
-            /* navInfoContainer */ null
+            null
         );
 
         const projectDropdownContainer = GenerateElement.createDropdown(
@@ -236,7 +235,7 @@ export default class UI {
         const projectControlContainer = GenerateElement.generatePageElement(
             "div",
             ["project-control-container"],
-            /* projectTitleContainer */ null
+            null
         );
 
         const projectDropdownContainer = GenerateElement.createDropdown(
@@ -344,7 +343,7 @@ export default class UI {
         const listControlContainer = GenerateElement.generatePageElement(
             "div",
             ["list-control-container"],
-            /* listTitleContainer */ null
+            null
         );
 
         const projectDropdownContainer = GenerateElement.createDropdown(

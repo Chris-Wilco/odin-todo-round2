@@ -104,9 +104,7 @@ export default class Storage {
         return JSON.parse(storedUsers);
     }
 
-    //TODO: Is this useless?
-    //Not for *every* case, I don't think. When we're saving a user that already exists, it makes sense to check against existing users and then overwrite the pre-existing one so that we don't duplicated every time we save.
-    //I think it is for the case of creating a brand new user from the login screen though. It adds the new user even if the user already exists so when checking with a new blank "user 1", this overwrites the already existing "user 1".
+    //Checks to see if a user with the same name as the provided user object already exists. If it does, the existing user is overwritten with provided user object, otherwise the provided user is just appended to the existing array of users. The array of users is then saved in localStorage.
     overwriteSavedUser(userToStore) {
         if (this.doesUserAlreadyExist(userToStore)) {
             const target = this.userList.find(
