@@ -7,11 +7,7 @@ export default class LoginUI {
     constructor() {
         this.newStorage = new Storage();
         this.userList = this.newStorage.getUsers();
-
-        //Gonna try using a deep copy of the initial users array created by the storage
-
         this.pageBody = document.querySelector("body");
-
         this.generateLoginPage();
     }
 
@@ -107,7 +103,8 @@ export default class LoginUI {
 
     createNewUI(user) {
         this.clearPageBody();
-        user.parentObject = this;
+        //Don't think I need to assign this LoginUI as the parent object of the user...
+        /* user.parentObject = this; */
         const newPage = new UI(user, this.newStorage, this);
     }
 
@@ -127,6 +124,11 @@ export default class LoginUI {
         if (!this.newStorage.doesUserAlreadyExist(newUser)) {
             this.userList.push(newUser);
             this.newStorage.storeUserArray();
+
+            console.log(`Original user list:`);
+            console.log(this.newStorage.storedUserList);
+            console.log(`Current user list:`);
+            console.log(this.newStorage.userList);
         }
 
         this.reloadUserList();

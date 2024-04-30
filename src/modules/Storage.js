@@ -8,11 +8,8 @@ import User from "./User.js";
 export default class Storage {
     constructor() {
         const jsonTextOfStoredUserArray = this.getFromLocalStorage();
-        /* console.log(`jsonTextOfStoredUserArray: ${jsonTextOfStoredUserArray}`);
-        console.log(typeof jsonTextOfStoredUserArray);
-        console.log(jsonTextOfStoredUserArray); */
-        /* console.log(jsonText);
-        console.log(typeof jsonText); */
+
+        this.storedUserList = this.parseUsers(jsonTextOfStoredUserArray);
         this.userList = this.parseUsers(jsonTextOfStoredUserArray);
         console.log(this.userList);
     }
@@ -147,5 +144,6 @@ export default class Storage {
 
     //TODO: Should there be a method to nuke localstorage of all saved data?
     //Probably...
+
     /* saveAllUsers() {} */
 }
