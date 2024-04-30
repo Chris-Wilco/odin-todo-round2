@@ -13,8 +13,64 @@ export default class LoginUI {
         this.generateLoginPage();
     }
 
-    //TODO: Get and return array of users from localStorage
-    /* openUsers() {} */
+    generateLoginPage() {
+        this.loginPageBody = GenerateElement.generatePageElement(
+            "div",
+            ["login-page-body"],
+            this.pageBody
+        );
+
+        this.loginContainer = GenerateElement.generatePageElement(
+            "div",
+            ["login-container"],
+            this.loginPageBody
+        );
+
+        this.loginControlContainer = GenerateElement.generatePageElement(
+            "div",
+            ["login-control-container"],
+            this.loginContainer
+        );
+
+        this.generateLoginControls(this.loginControlContainer);
+
+        this.userListContainer = GenerateElement.generatePageElement(
+            "div",
+            ["user-list-container"],
+            this.loginContainer
+        );
+
+        this.createUserListDiv();
+    }
+
+    generateLoginControls(loginControlContainer) {
+        this.newUserButton = GenerateElement.generatePageElement(
+            "div",
+            ["new-user-button", "button"],
+            loginControlContainer,
+            "new user"
+        );
+        this.newUserButton.addEventListener("click", () => {
+            //just gonna add it to the list of potential users for now
+            this.createNewUser();
+        });
+
+        this.saveUsersButton = GenerateElement.generatePageElement(
+            "div",
+            ["new-user-button", "button"],
+            loginControlContainer,
+            "save users"
+        );
+        //TODO: this actually needs to save all the users
+        this.saveUsersButton.addEventListener("click", () => {});
+
+        this.clearUsersButton = GenerateElement.generatePageElement(
+            "div",
+            ["new-user-button", "button"],
+            loginControlContainer,
+            "clear users"
+        );
+    }
 
     createUserListDiv() {
         this.userList.forEach((user) => {
@@ -48,7 +104,7 @@ export default class LoginUI {
     createNewUI(user) {
         this.clearPageBody();
         user.parentObject = this;
-        const newPage = new UI(user, this.newStorage);
+        const newPage = new UI(user, this.newStorage, this);
     }
 
     clearPageBody() {
@@ -56,10 +112,8 @@ export default class LoginUI {
     }
 
     createNewUser() {
-        //Prompt for user info
         const newUserName = prompt("New User name?");
 
-        //create new user
         const newUser = new User(newUserName, [], this.userList);
 
         //Add it as an actual child of the Storage user array
@@ -77,65 +131,13 @@ export default class LoginUI {
         //Should this also open the main UI with new user and no projects, etc?
     }
 
-    generateLoginControls(loginControlContainer) {
-        this.newUserButton = GenerateElement.generatePageElement(
-            "div",
-            ["new-user-button", "button"],
-            loginControlContainer,
-            "new user"
-        );
-        this.newUserButton.addEventListener("click", () => {
-            //just gonna add it to the list of potential users for now
-            this.createNewUser();
-        });
-
-        this.saveUsersButton = GenerateElement.generatePageElement(
-            "div",
-            ["new-user-button", "button"],
-            loginControlContainer,
-            "save users"
-        );
-
-        this.clearUsersButton = GenerateElement.generatePageElement(
-            "div",
-            ["new-user-button", "button"],
-            loginControlContainer,
-            "clear users"
-        );
-    }
-
-    generateLoginPage() {
-        this.loginPageBody = GenerateElement.generatePageElement(
-            "div",
-            ["login-page-body"],
-            this.pageBody
-        );
-
-        this.loginContainer = GenerateElement.generatePageElement(
-            "div",
-            ["login-container"],
-            this.loginPageBody
-        );
-
-        this.loginControlContainer = GenerateElement.generatePageElement(
-            "div",
-            ["login-control-container"],
-            this.loginContainer
-        );
-
-        this.generateLoginControls(this.loginControlContainer);
-
-        this.userListContainer = GenerateElement.generatePageElement(
-            "div",
-            ["user-list-container"],
-            this.loginContainer
-        );
-
-        this.createUserListDiv();
-    }
-
     refreshLoginPage() {
         this.clearPageBody();
+
+        console.log(`this.usersList for the LoginUI object:`);
+        console.log(this.userList);
+        console.log(`this.usersList for this.newStorage:`);
+        console.log(this.newStorage.userList);
 
         //Now regenerate page body elements separately from the constructor....
         this.generateLoginPage();

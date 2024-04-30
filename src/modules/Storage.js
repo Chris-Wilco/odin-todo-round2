@@ -145,4 +145,5 @@ export default class Storage {
 
     //TODO: Should there be a method to nuke localstorage of all saved data?
     //Probably...
+    saveAllUsers() {}
 }

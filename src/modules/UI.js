@@ -8,7 +8,7 @@ import LoginUI from "./LoginUI.js";
 
 export default class UI {
     //Initialize page body, nav container, and content container page elements to be later populated
-    constructor(thisUser, thisStorage) {
+    constructor(thisUser, thisStorage, thisLoginUI) {
         /* const newStorage = new Storage(); */
         /* this.newStorage = new Storage();
         this.userList = this.newStorage.getUsers(); */
@@ -16,6 +16,7 @@ export default class UI {
         //Refactor this to take in a single user and generate UI
         this.newStorage = thisStorage;
         this.user = thisUser;
+        this.loginUI = thisLoginUI;
 
         /* this.user = this.userList[0]; */
         //console.log(this.user);
@@ -121,7 +122,8 @@ export default class UI {
             "exit"
         );
         exitToLoginButton.addEventListener("click", () => {
-            this.user.parentObject.refreshLoginPage();
+            /* this.user.parentObject.refreshLoginPage(); */
+            this.loginUI.refreshLoginPage();
         });
 
         const navContentContainer = GenerateElement.generatePageElement(
